@@ -1,0 +1,65 @@
+﻿city,country,overall_raw,emotional,sentiment_label,emotional_was_missing,positive_pct,negative_pct,neutral_pct,headline_count,volatility,avg_subjectivity,dominant_theme,top_positive_headline,top_negative_headline,_weighted_mean,_median_raw
+Washington D.C.,USA,52.2,0.522,,False,,,,,,,,,,0.0689,0.0
+New York,USA,50.3,0.503,,False,,,,,,,,,,-0.0096,0.0477
+Los Angeles,USA,52.6,0.526,,False,,,,,,,,,,0.0831,0.0
+Ottawa,Canada,49.2,0.492,,False,,,,,,,,,,-0.0258,0.0
+Mexico City,Mexico,50.3,0.503,,False,,,,,,,,,,0.009,0.0
+Monterrey,Mexico,54.1,0.541,,False,,,,,,,,,,0.1169,0.0294
+Brasília,Brazil,48.0,0.48,,False,,,,,,,,,,-0.0633,0.0
+São Paulo,Brazil,53.5,0.535,,False,,,,,,,,,,0.1048,0.0128
+Buenos Aires,Argentina,51.0,0.51,,False,,,,,,,,,,0.0316,0.0
+Santiago,Chile,53.1,0.531,,False,,,,,,,,,,0.0979,0.0
+Bogotá,Colombia,50.9,0.509,,False,,,,,,,,,,0.0284,0.0
+Lima,Peru,51.1,0.511,,False,,,,,,,,,,0.0362,0.0
+San José,Costa Rica,54.2,0.542,,False,,,,,,,,,,0.1168,0.035
+London,UK,50.6,0.506,,False,,,,,,,,,,0.0138,0.013
+Paris,France,50.1,0.501,,False,,,,,,,,,,0.0031,0.0
+Berlin,Germany,51.0,0.51,,False,,,,,,,,,,0.0328,0.0
+Rome,Italy,51.8,0.518,,False,,,,,,,,,,0.0572,0.0
+Madrid,Spain,47.6,0.476,,False,,,,,,,,,,-0.0753,0.0
+Amsterdam,Netherlands,51.7,0.517,,False,,,,,,,,,,0.0535,0.0
+Brussels,Belgium,51.3,0.513,,False,,,,,,,,,,0.0408,0.0
+Vienna,Austria,51.1,0.511,,False,,,,,,,,,,0.0344,0.0
+Bern,Switzerland,51.6,0.516,,False,,,,,,,,,,0.0507,0.0
+Stockholm,Sweden,52.4,0.524,,False,,,,,,,,,,0.0768,0.0
+Oslo,Norway,50.2,0.502,,False,,,,,,,,,,0.0066,0.0
+Copenhagen,Denmark,51.3,0.513,,False,,,,,,,,,,0.0412,0.0
+Helsinki,Finland,52.7,0.527,,False,,,,,,,,,,0.0871,0.0
+Dublin,Ireland,50.2,0.502,,False,,,,,,,,,,0.0073,0.0
+Lisbon,Portugal,55.0,0.55,,False,,,,,,,,,,0.1494,0.0212
+Athens,Greece,53.3,0.533,,False,,,,,,,,,,0.1041,0.0
+Warsaw,Poland,51.8,0.518,,False,,,,,,,,,,0.0572,0.0
+Prague,Czechia,53.9,0.539,,False,,,,,,,,,,0.1103,0.035
+Budapest,Hungary,52.9,0.529,,False,,,,,,,,,,0.0909,0.0
+Ankara,Turkey,51.2,0.512,,False,,,,,,,,,,0.038,0.0
+Istanbul,Turkey,50.1,0.501,,False,,,,,,,,,,0.0035,0.0
+Moscow,Russia,45.4,0.454,,False,,,,,,,,,,-0.1323,-0.035
+Saint Petersburg,Russia,48.9,0.489,,False,,,,,,,,,,-0.0344,0.0
+Reykjavík,Iceland,61.1,0.611,,False,,,,,,,,,,0.3063,0.1094
+Tallinn,Estonia,54.1,0.541,,False,,,,,,,,,,0.1297,0.0
+Riga,Latvia,52.9,0.529,,False,,,,,,,,,,0.0934,0.0
+Vilnius,Lithuania,52.0,0.52,,False,,,,,,,,,,0.0629,0.0
+Luxembourg City,Luxembourg,57.3,0.573,,False,,,,,,,,,,0.1957,0.0831
+Bratislava,Slovakia,50.9,0.509,,False,,,,,,,,,,0.0272,0.0
+Ljubljana,Slovenia,55.5,0.555,,False,,,,,,,,,,0.1633,0.0239
+Tokyo,Japan,53.3,0.533,,False,,,,,,,,,,0.1041,0.0
+Osaka,Japan,54.6,0.546,,False,,,,,,,,,,0.137,0.0239
+Seoul,South Korea,51.0,0.51,,False,,,,,,,,,,0.0326,0.0
+Busan,South Korea,52.7,0.527,,False,,,,,,,,,,0.0847,0.0
+Beijing,China,51.8,0.518,,False,,,,,,,,,,0.0585,0.0
+Shanghai,China,52.2,0.522,,False,,,,,,,,,,0.0581,0.0239
+Jakarta,Indonesia,51.6,0.516,,False,,,,,,,,,,0.0518,0.0
+Singapore,Singapore,52.9,0.529,,False,,,,,,,,,,0.0915,0.0
+New Delhi,India,47.4,0.474,,False,,,,,,,,,,-0.0829,0.0
+Mumbai,India,49.9,0.499,,False,,,,,,,,,,-0.0035,0.0
+Riyadh,Saudi Arabia,52.5,0.525,,False,,,,,,,,,,0.0701,0.0239
+Johannesburg,South Africa,33.6,0.336,,False,,,,,,,,,,-0.3177,-0.4738
+Cape Town,South Africa,53.6,0.536,,False,,,,,,,,,,0.0939,0.0477
+Nairobi,Kenya,49.8,0.498,,False,,,,,,,,,,-0.0064,0.0
+Cairo,Egypt,52.2,0.522,,False,,,,,,,,,,0.068,0.0036
+Tel Aviv,Israel,46.4,0.464,,False,,,,,,,,,,-0.1028,-0.0252
+Baku,Azerbaijan,51.3,0.513,,False,,,,,,,,,,0.0412,0.0
+Canberra,Australia,52.2,0.522,,False,,,,,,,,,,0.0695,0.0
+Sydney,Australia,51.2,0.512,,False,,,,,,,,,,0.039,0.0
+Melbourne,Australia,52.4,0.524,,False,,,,,,,,,,0.077,0.0
+Auckland,New Zealand,53.6,0.536,,False,,,,,,,,,,0.0949,0.0477

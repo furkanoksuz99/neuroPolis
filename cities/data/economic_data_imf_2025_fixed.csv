@@ -1,0 +1,65 @@
+﻿City,Country ISO2,Country ISO3,Analysis Year,GDP per capita USD,Inflation (%),Unemployment (%),Data Frequency,Data Source,Data Status,Data Complete,GDP Score,Inflation Score,Unemployment Score,Economic Score
+Luxembourg City,LU,LUX,2025,148246.975,2.5,6.0,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,100.0,93.81,86.84,94.2
+Dublin,IE,IRL,2025,130652.363,2.1,4.7,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,87.92,94.76,91.12,90.93
+Bern,CH,CHE,2025,115620.125,0.2,2.8,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,77.61,99.29,97.37,90.04
+Singapore,SG,SGP,2025,99365.285,0.9,2.0,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,66.45,97.62,100.0,85.86
+Reykjavík,IS,ISL,2025,99070.813,4.1,4.4,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,66.25,90.0,92.11,81.13
+Oslo,NO,NOR,2025,94468.188,3.0,4.5,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,63.09,92.62,91.78,80.55
+Washington D.C.,US,USA,2025,89991.152,2.7,4.3,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,60.01,93.33,92.43,79.74
+Los Angeles,US,USA,2025,89991.152,2.7,4.3,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,60.01,93.33,92.43,79.74
+New York,US,USA,2025,89991.152,2.7,4.3,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,60.01,93.33,92.43,79.74
+Copenhagen,DK,DNK,2025,77046.358,1.8,2.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,51.13,95.48,97.04,78.21
+Amsterdam,NL,NLD,2025,73832.752,3.0,3.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,48.92,92.62,93.75,75.48
+Sydney,AU,AUS,2025,66351.856,2.9,4.2,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,43.79,92.86,92.76,73.2
+Canberra,AU,AUS,2025,66351.856,2.9,4.2,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,43.79,92.86,92.76,73.2
+Melbourne,AU,AUS,2025,66351.856,2.9,4.2,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,43.79,92.86,92.76,73.2
+Tel Aviv,IL,ISR,2025,60334.813,3.0,3.0,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,39.66,92.62,96.71,72.66
+Berlin,DE,DEU,2025,60438.79,2.3,3.8,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,39.73,94.29,94.08,72.4
+Vienna,AT,AUT,2025,63161.353,3.6,5.7,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,41.6,91.19,87.83,70.35
+London,GB,GBR,2025,57608.214,3.4,4.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,37.79,91.67,90.46,69.75
+Brussels,BE,BEL,2025,61002.007,3.0,6.2,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,40.12,92.62,86.18,69.69
+Ottawa,CA,CAN,2025,55764.707,2.1,6.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,36.52,94.76,83.88,68.2
+Stockholm,SE,SWE,2025,62661.794,2.6,8.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,41.26,93.57,77.3,67.76
+Auckland,NZ,NZL,2025,48620.65,2.8,5.3,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,31.62,93.1,89.14,67.32
+Busan,KR,KOR,2025,36226.965,2.1,2.8,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,23.11,94.76,97.37,66.88
+Seoul,KR,KOR,2025,36226.965,2.1,2.8,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,23.11,94.76,97.37,66.88
+Paris,FR,FRA,2025,48929.949,0.9,7.6,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,31.83,97.62,81.58,66.49
+Prague,CZ,CZE,2025,35678.377,2.5,2.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,22.73,93.81,97.04,66.35
+Osaka,JP,JPN,2025,35973.152,3.2,2.5,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,22.94,92.14,98.36,66.32
+Tokyo,JP,JPN,2025,35973.152,3.2,2.5,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,22.94,92.14,98.36,66.32
+Rome,IT,ITA,2025,43270.357,1.6,6.1,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,27.94,95.95,86.51,65.92
+Helsinki,FI,FIN,2025,56464.358,1.8,9.7,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,37.0,95.48,74.67,65.84
+Ljubljana,SI,SVN,2025,37357.421,2.5,3.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,23.89,93.81,93.75,65.82
+Warsaw,PL,POL,2025,28374.167,3.6,3.1,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,17.72,91.19,96.38,63.36
+Lisbon,PT,PRT,2025,32165.93,2.2,6.0,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,20.32,94.52,86.84,62.54
+Vilnius,LT,LTU,2025,32839.049,3.4,6.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,20.78,91.67,83.88,60.98
+Budapest,HU,HUN,2025,25825.579,4.4,4.3,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,15.97,89.29,92.43,60.9
+Bratislava,SK,SVK,2025,28497.802,4.2,5.4,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,17.81,89.76,88.82,60.7
+San José,CR,CRI,2025,19161.968,-0.1,6.3,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,11.4,100.0,85.86,60.32
+Beijing,CN,CHN,2025,13968.065,0.0,5.1,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,7.83,99.76,89.8,60.0
+Shanghai,CN,CHN,2025,13968.065,0.0,5.1,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,7.83,99.76,89.8,60.0
+Tallinn,EE,EST,2025,34325.319,4.8,7.4,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,21.81,88.33,82.24,59.89
+Mexico City,MX,MEX,2025,13741.296,3.8,2.6,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,7.68,90.71,98.03,59.69
+Monterrey,MX,MEX,2025,13741.296,3.8,2.6,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,7.68,90.71,98.03,59.69
+Madrid,ES,ESP,2025,38290.386,2.7,10.5,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,24.53,93.33,72.04,59.42
+Riga,LV,LVA,2025,26116.424,3.8,6.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,16.17,90.71,83.88,58.85
+Athens,GR,GRC,2025,27040.815,2.9,8.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,16.81,92.86,77.3,57.77
+Moscow,RU,RUS,2025,17972.117,8.7,2.2,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,10.58,79.05,99.34,57.75
+Saint Petersburg,RU,RUS,2025,17972.117,8.7,2.2,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,10.58,79.05,99.34,57.75
+Lima,PE,PER,2025,9910.942,1.5,5.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,5.05,96.19,87.17,57.03
+Jakarta,ID,IDN,2025,5082.438,1.9,4.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,1.73,95.24,90.46,56.4
+New Delhi,IN,IND,2025,2675.322,2.1,4.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,0.08,94.76,90.46,55.6
+Mumbai,IN,IND,2025,2675.322,2.1,4.9,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,0.08,94.76,90.46,55.6
+Santiago,CL,CHL,2025,17734.761,4.2,8.5,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,10.42,89.76,78.62,54.68
+São Paulo,BR,BRA,2025,10685.689,5.0,6.0,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,5.58,87.86,86.84,54.64
+Brasília,BR,BRA,2025,10685.689,5.0,6.0,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,5.58,87.86,86.84,54.64
+Baku,AZ,AZE,2025,7321.685,5.6,5.3,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,3.27,86.43,89.14,53.98
+Bogotá,CO,COL,2025,8622.574,5.1,8.0,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,4.16,87.62,80.26,52.03
+Cairo,EG,EGY,2025,3379.429,20.4,7.3,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,0.56,51.19,82.57,40.35
+Ankara,TR,TUR,2025,18611.136,34.9,8.3,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,11.02,16.67,79.28,33.19
+Istanbul,TR,TUR,2025,18611.136,34.9,8.3,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,11.02,16.67,79.28,33.19
+Johannesburg,ZA,ZAF,2025,6769.156,3.2,32.4,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,2.89,92.14,0.0,28.8
+Cape Town,ZA,ZAF,2025,6769.156,3.2,32.4,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,2.89,92.14,0.0,28.8
+Buenos Aires,AR,ARG,2025,14354.988,41.9,7.4,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,True,8.1,0.0,82.24,27.91
+Riyadh,SA,SAU,2025,35464.445,2.0,,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,False,22.59,95.0,,
+Nairobi,KE,KEN,2025,2557.539,4.1,,Annual,IMF World Economic Outlook,2025 IMF WEO estimate/projection,False,0.0,90.0,,

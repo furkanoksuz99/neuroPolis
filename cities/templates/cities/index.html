@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroPolis </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root{
+  --ocean:#295773;--ocean2:#295D7D;--sky:#C8D7E4;--lav:#F3EBF3;
+  --green:#7AAC6C;--bg:#F3EBF3;--surface:#ffffff;--surface2:#EEF4F8;
+  --bar:#295773;--bar2:#1e4060;--txt:#1a2e3d;
+  --txt2:rgba(26,46,61,.60);--txt3:rgba(26,46,61,.38);
+  --bdr:rgba(41,87,115,.14);--bdr2:rgba(41,87,115,.26);
+  --hi:#7AAC6C;--md:#4D9AC0;--lo:#C0616E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--txt);overflow:hidden;height:100vh;width:100vw}
+#map{position:fixed;inset:0;z-index:1}
+.leaflet-tile-pane{filter:saturate(.68) brightness(1.03) hue-rotate(195deg) sepia(.08)}
+.leaflet-control-zoom,.leaflet-control-attribution{display:none}
+#vig{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse 90% 90% at 50% 50%,transparent 42%,rgba(243,235,243,.26) 100%)}
+
+/* TOP BAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:20;height:54px;
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+  background:var(--bar);border-bottom:1px solid rgba(200,215,228,.15);
+  box-shadow:0 2px 24px rgba(41,87,115,.35)}
+#logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:400;
+  letter-spacing:.03em;color:#deeaf3;display:flex;align-items:center;gap:2px}
+#logo span{color:#a8d4a0;font-style:italic}
+.tagline{font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:rgba(200,215,228,.38);
+  border-left:1px solid rgba(200,215,228,.18);padding-left:12px;line-height:1.9}
+.spacer{flex:1}
+#cmp-toggle-btn{display:flex;align-items:center;gap:6px;
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(200,215,228,.65);padding:5px 13px;
+  border:1px solid rgba(200,215,228,.22);border-radius:20px;
+  background:rgba(200,215,228,.09);cursor:pointer;transition:all .2s;margin-right:6px}
+#cmp-toggle-btn:hover{background:rgba(200,215,228,.18);color:#deeaf3}
+#cmp-toggle-btn.active{background:var(--green);color:#fff;border-color:var(--green);
+  box-shadow:0 2px 12px rgba(122,172,108,.45)}
+.livebadge{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;
+  font-size:9px;letter-spacing:.1em;color:#a8d4a0;padding:5px 12px;
+  border:1px solid rgba(168,212,160,.28);border-radius:20px;background:rgba(168,212,160,.1)}
+.ldot{width:5px;height:5px;border-radius:50%;background:#a8d4a0;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* SEARCH */
+#searchbar{position:fixed;top:9px;left:50%;transform:translateX(-50%);z-index:21;width:268px}
+#sinput{width:100%;padding:8px 34px 8px 13px;
+  background:rgba(255,255,255,.97);border:1px solid var(--bdr2);border-radius:22px;
+  color:var(--txt);font-family:'DM Mono',monospace;font-size:11px;outline:none;
+  box-shadow:0 2px 10px rgba(41,87,115,.1);transition:border-color .2s,box-shadow .2s}
+#sinput::placeholder{color:var(--txt3)}
+#sinput:focus{border-color:var(--ocean2);box-shadow:0 0 0 3px rgba(41,93,125,.12)}
+.sicon{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--ocean2);font-size:13px;pointer-events:none}
+#sresults{position:absolute;top:calc(100% + 5px);left:0;right:0;
+  background:var(--surface);border:1px solid var(--bdr2);border-radius:13px;
+  overflow:hidden;display:none;box-shadow:0 10px 34px rgba(41,87,115,.16)}
+.sri{padding:9px 13px;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--txt2);border-bottom:1px solid var(--bdr);
+  display:flex;justify-content:space-between;align-items:center;transition:background .12s}
+.sri:last-child{border-bottom:none}
+.sri:hover{background:rgba(41,87,115,.05)}
+.sri-city{font-weight:500;color:var(--txt)}.sri-ctry{font-size:9px;color:var(--txt3);margin-top:1px}.sri-sc{font-weight:600;font-size:13px}
+
+/* ZOOM */
+#zoom{position:fixed;left:15px;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:4px}
+.zbtn{width:30px;height:30px;background:rgba(255,255,255,.94);border:1px solid var(--bdr2);
+  border-radius:8px;color:var(--ocean2);font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(41,87,115,.1);transition:all .15s;line-height:1}
+.zbtn:hover{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+
+/* SIDEBAR */
+#sidebar{position:fixed;right:14px;top:64px;bottom:62px;z-index:20;
+  width:192px;display:flex;flex-direction:column;gap:7px;overflow-y:auto}
+#sidebar::-webkit-scrollbar{width:2px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:1px}
+.panel{background:rgba(255,255,255,.88);border:1px solid var(--bdr);border-radius:13px;
+  backdrop-filter:blur(12px);overflow:hidden;flex-shrink:0;
+  box-shadow:0 3px 16px rgba(41,87,115,.1)}
+.phd{padding:9px 12px;border-bottom:1px solid var(--bdr);
+  font-family:'DM Mono',monospace;font-size:7.5px;font-weight:500;
+  letter-spacing:.15em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.phd.top{color:var(--green)}.phd.low{color:var(--lo)}
+.ri{padding:8px 11px;border-bottom:1px solid var(--bdr);cursor:pointer;transition:background .12s}
+.ri:last-child{border-bottom:none}
+.ri:hover{background:rgba(41,87,115,.04)}
+.ri-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+.ri-num{font-family:'DM Mono',monospace;font-size:7px;color:var(--txt3);margin-right:4px;min-width:11px}
+.ri-city{font-size:10.5px;font-weight:500;color:var(--txt);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ri-score{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;margin-left:4px}
+.ri-ctry{font-size:9px;color:var(--txt3);font-family:'DM Mono',monospace;padding-left:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ri-bar{height:2px;background:rgba(41,87,115,.1);border-radius:1px;margin-top:4px;overflow:hidden}
+.ri-fill{height:100%;border-radius:1px;opacity:.75}
+
+/* STATS */
+#stats{position:fixed;left:15px;bottom:60px;z-index:20;display:flex;gap:5px}
+.sc{background:rgba(255,255,255,.88);border:1px solid var(--bdr);border-radius:11px;
+  padding:8px 13px;min-width:78px;box-shadow:0 3px 12px rgba(41,87,115,.1)}
+.sclbl{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt3);margin-bottom:3px}
+.scval{font-family:'DM Mono',monospace;font-size:17px;font-weight:600}
+.scsub{font-family:'DM Mono',monospace;font-size:7px;color:var(--txt3);margin-top:2px}
+
+/* TICKER */
+#ticker{position:fixed;bottom:0;left:0;right:0;z-index:20;height:48px;
+  background:var(--bar2);border-top:1px solid rgba(200,215,228,.14);
+  display:flex;align-items:center;overflow:hidden;
+  box-shadow:0 -2px 24px rgba(41,87,115,.3)}
+.tlbl{flex-shrink:0;padding:0 15px;font-family:'DM Mono',monospace;font-size:7.5px;
+  font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(200,215,228,.7);border-right:1px solid rgba(200,215,228,.15);
+  height:100%;display:flex;align-items:center;white-space:nowrap}
+#ticker-stage{flex:1;display:flex;align-items:center;justify-content:center;
+  position:relative;height:100%;overflow:hidden}
+.tick-card{position:absolute;display:flex;align-items:center;gap:24px;
+  opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease;pointer-events:none}
+.tick-card.active{opacity:1;transform:translateY(0)}
+.tick-card.leaving{opacity:0;transform:translateY(-8px)}
+.tick-item{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px}
+.tick-city{color:rgba(200,215,228,.48)}
+.tick-score{font-weight:600;font-size:11px}
+.tick-dot{width:5px;height:5px;border-radius:50%}
+
+/* MARKERS */
+.cmark{cursor:pointer;position:relative;width:0;height:0}
+.cring{position:absolute;border-radius:50%;border:1.5px solid currentColor;
+  opacity:0;animation:rexp 3s ease-out infinite;pointer-events:none}
+@keyframes rexp{0%{transform:scale(.45);opacity:.55}100%{transform:scale(2);opacity:0}}
+.cball{position:absolute;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-weight:700;color:#fff;z-index:2;
+  transition:transform .18s ease;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.cmark:hover .cball{transform:scale(1.2)}
+.clabel{position:absolute;white-space:nowrap;pointer-events:none}
+.ccity{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;color:#1a2e3d;
+  text-shadow:0 1px 4px rgba(243,235,243,1),0 0 8px rgba(243,235,243,.9)}
+.cmark.csel .cball{outline:3px solid #fff;outline-offset:2px;transform:scale(1.28);
+  box-shadow:0 0 0 5px rgba(41,87,115,.3),0 4px 14px rgba(0,0,0,.22)}
+
+/* TOOLTIP */
+.ctt{background:#fff!important;border:1px solid var(--bdr2)!important;border-radius:12px!important;
+  padding:13px 15px!important;color:var(--txt)!important;font-family:'DM Sans',sans-serif!important;
+  box-shadow:0 8px 28px rgba(41,87,115,.16)!important;pointer-events:none!important;white-space:nowrap!important;min-width:145px!important}
+.ctt::before{display:none!important}
+.ttcity{font-size:12px;font-weight:600;color:var(--txt);margin-bottom:2px}
+.ttctry{font-family:'DM Mono',monospace;font-size:9px;color:var(--txt3);margin-bottom:9px;padding-bottom:9px;border-bottom:1px solid var(--bdr)}
+.ttrow{display:flex;align-items:baseline;gap:6px}
+.ttlbl{font-family:'DM Mono',monospace;font-size:8px;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.ttscore{font-family:'DM Mono',monospace;font-size:26px;font-weight:700}
+.tt-hint{font-family:'DM Mono',monospace;font-size:8px;color:var(--ocean2);margin-top:8px;
+  padding-top:8px;border-top:1px solid var(--bdr);letter-spacing:.05em;display:none}
+
+/* COMPARE BANNER */
+#cmp-banner{position:fixed;top:64px;left:50%;transform:translateX(-50%);
+  z-index:25;background:rgba(28,56,80,.94);
+  border:1px solid rgba(200,215,228,.22);border-radius:26px;
+  padding:8px 8px 8px 16px;display:none;align-items:center;gap:9px;
+  backdrop-filter:blur(16px);box-shadow:0 6px 28px rgba(41,87,115,.38);
+  animation:sld .25s cubic-bezier(.175,.885,.32,1.2)}
+@keyframes sld{from{opacity:0;transform:translateX(-50%) translateY(-10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+#cmp-banner.show{display:flex}
+.cslots{display:flex;align-items:center;gap:6px}
+.cslot{width:100px;height:33px;background:rgba(200,215,228,.07);
+  border:1.5px dashed rgba(200,215,228,.25);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;gap:3px;
+  font-family:'DM Mono',monospace;font-size:9px;color:rgba(200,215,228,.35);
+  transition:all .2s;position:relative;overflow:hidden}
+.cslot.filled{border-style:solid;background:rgba(200,215,228,.1)}
+.sname{font-weight:600;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62px}
+.ssc{font-size:11px;font-weight:700;margin-left:1px}
+.sx{position:absolute;top:3px;right:4px;font-size:8px;cursor:pointer;
+  color:rgba(200,215,228,.35);line-height:1;transition:color .15s}
+.sx:hover{color:#f28585}
+.cvs{font-family:'Playfair Display',serif;font-style:italic;font-size:12px;color:rgba(200,215,228,.3)}
+.cgo{padding:6px 14px;background:var(--green);color:#fff;border:none;border-radius:10px;
+  cursor:pointer;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.1em;
+  text-transform:uppercase;transition:all .18s;opacity:.35;pointer-events:none;
+  box-shadow:0 2px 8px rgba(122,172,108,.3)}
+.cgo.ready{opacity:1;pointer-events:all}
+.cgo.ready:hover{background:#68994f}
+.cban-close{width:28px;height:28px;background:rgba(200,215,228,.08);
+  border:1px solid rgba(200,215,228,.2);border-radius:10px;
+  color:rgba(200,215,228,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:11px;transition:all .15s;flex-shrink:0;margin-left:2px}
+.cban-close:hover{background:rgba(192,97,110,.2);color:#f28585;border-color:rgba(192,97,110,.35)}
+
+/* ── SINGLE CITY MODAL ───────────────────────────────────────────── */
+#mov{position:fixed;inset:0;z-index:100;background:rgba(10,22,33,.8);
+  backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:20px}
+#mov.open{display:flex;animation:fo .22s ease}
+@keyframes fo{from{opacity:0}to{opacity:1}}
+#modal{background:#162a3b;border:1px solid rgba(200,215,228,.18);border-radius:22px;
+  width:600px;max-width:100%;max-height:90vh;overflow-y:auto;
+  box-shadow:0 36px 90px rgba(6,14,22,.7),0 4px 24px rgba(6,14,22,.4);
+  animation:mi .3s cubic-bezier(.175,.885,.32,1.2);position:relative;
+  scrollbar-width:thin;scrollbar-color:rgba(200,215,228,.2) transparent}
+#modal::-webkit-scrollbar{width:3px}
+#modal::-webkit-scrollbar-thumb{background:rgba(200,215,228,.2);border-radius:2px}
+@keyframes mi{from{opacity:0;transform:scale(.95) translateY(14px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.mstripe{height:4px;width:100%;border-radius:22px 22px 0 0}
+.mhead{padding:26px 28px 22px;border-bottom:1px solid rgba(200,215,228,.1);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.mhl{flex:1;min-width:0}
+.mcity{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;
+  color:#deeaf3;line-height:1.1;margin-bottom:8px}
+.mctry{font-family:'DM Mono',monospace;font-size:12px;color:rgba(200,215,228,.5);
+  display:flex;align-items:center;gap:6px;letter-spacing:.04em}
+.mhr{text-align:right;flex-shrink:0}
+.mslbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;
+  text-transform:uppercase;color:rgba(200,215,228,.36);margin-bottom:6px}
+.msval{font-family:'DM Mono',monospace;font-size:52px;font-weight:700;line-height:1}
+.mrank{font-family:'DM Mono',monospace;font-size:10px;color:rgba(200,215,228,.34);
+  margin-top:5px;letter-spacing:.04em}
+#mclose{position:absolute;top:16px;right:16px;width:32px;height:32px;z-index:10;
+  background:rgba(200,215,228,.08);border:1px solid rgba(200,215,228,.15);
+  border-radius:10px;color:rgba(200,215,228,.5);cursor:pointer;font-size:13px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s}
+#mclose:hover{background:rgba(192,97,110,.2);color:#f28585;border-color:rgba(192,97,110,.35)}
+
+.mbody{padding:22px 28px 24px}
+.mzone-row{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.mzone-badge{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;padding:5px 14px;border-radius:20px;font-weight:500}
+.mzone-badge.pos{background:rgba(122,172,108,.22);color:#a8d4a0;border:1px solid rgba(122,172,108,.3)}
+.mzone-badge.neu{background:rgba(77,154,192,.2);color:#89c4de;border:1px solid rgba(77,154,192,.3)}
+.mzone-badge.neg{background:rgba(192,97,110,.2);color:#e8909a;border:1px solid rgba(192,97,110,.3)}
+.mzone-rank{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;
+  padding:4px 12px;border-radius:20px;background:rgba(200,215,228,.08);color:rgba(200,215,228,.5)}
+
+
+/* METRICS BAR CHART */
+.mmetrics-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(200,215,228,.36);margin-bottom:12px}
+.mmetrics-chart{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.mmc-row{display:grid;grid-template-columns:130px 1fr 42px;align-items:center;gap:10px}
+.mmc-lbl{font-family:'DM Mono',monospace;font-size:9px;color:rgba(200,215,228,.5);text-align:right;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmc-track{height:8px;background:rgba(200,215,228,.08);border-radius:4px;overflow:hidden;position:relative}
+.mmc-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.25,.46,.45,.94)}
+.mmc-fill-glow{position:absolute;top:0;left:0;height:100%;border-radius:4px;
+  opacity:.3;filter:blur(4px)}
+.mmc-val{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;text-align:right}
+
+/* METRIC CARDS GRID (5 cards, 5th spans full) */
+.mmetrics-cards{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.mmc-card{
+  background:rgba(200,215,228,.06);border:1px solid rgba(200,215,228,.1);
+  border-radius:12px;padding:13px 14px}
+.mmc-card:last-child:nth-child(odd){grid-column:1/-1}
+.mmc-card-lbl{
+  font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(200,215,228,.38);margin-bottom:9px}
+.mmc-card-bar{
+  height:3px;background:rgba(200,215,228,.1);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.mmc-card-fill{height:100%;border-radius:2px;opacity:.9}
+.mmc-card-vals{display:flex;justify-content:space-between;align-items:baseline}
+.mmc-card-num{
+  font-family:'DM Mono',monospace;font-size:18px;font-weight:700;line-height:1}
+.mmc-card-unit{
+  font-family:'DM Mono',monospace;font-size:9px;color:rgba(200,215,228,.35)}
+
+/* RADAR */
+.mradar-wrap{display:flex;gap:16px;align-items:center;margin-bottom:18px;
+  background:rgba(200,215,228,.04);border:1px solid rgba(200,215,228,.09);
+  border-radius:13px;padding:16px}
+.mradar-legend{display:flex;flex-direction:column;gap:8px;min-width:130px}
+.mrl-row{display:flex;align-items:center;gap:8px}
+.mrl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.mrl-info{font-family:'DM Mono',monospace;font-size:9px;color:rgba(200,215,228,.5)}
+.mrl-val{font-weight:700;color:rgba(200,215,228,.85)}
+
+/* SCATTER */
+.mscatter-wrap{background:rgba(200,215,228,.04);border:1px solid rgba(200,215,228,.09);
+  border-radius:13px;padding:16px;margin-bottom:0}
+.mscatter-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(200,215,228,.36);margin-bottom:12px;
+  display:flex;justify-content:space-between;align-items:center}
+
+.mfoot{padding:14px 28px 20px;border-top:1px solid rgba(200,215,228,.1);
+  display:flex;justify-content:space-between;align-items:center}
+.mfts{font-family:'DM Mono',monospace;font-size:9px;color:rgba(200,215,228,.3);letter-spacing:.04em}
+.madd-cmp{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;
+  font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#a8d4a0;
+  padding:7px 14px;border:1px solid rgba(122,172,108,.32);border-radius:10px;
+  background:rgba(122,172,108,.1);cursor:pointer;transition:all .15s}
+.madd-cmp:hover{background:var(--green);color:#fff;border-color:var(--green)}
+.madd-cmp.added{background:var(--green);color:#fff;pointer-events:none}
+
+/* COMPARE MODAL */
+#cmpov{position:fixed;inset:0;z-index:110;background:rgba(6,14,22,.8);
+  backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center}
+#cmpov.open{display:flex;animation:fo .2s ease}
+#cmpmodal{background:#152434;border:1px solid rgba(200,215,228,.16);border-radius:20px;
+  width:780px;max-width:96vw;max-height:90vh;overflow-y:auto;
+  box-shadow:0 32px 90px rgba(0,0,0,.65),0 4px 22px rgba(0,0,0,.35);
+  animation:mi .3s cubic-bezier(.175,.885,.32,1.2);position:relative;color:#deeaf3}
+#cmpmodal::-webkit-scrollbar{width:3px}
+#cmpmodal::-webkit-scrollbar-thumb{background:rgba(200,215,228,.18);border-radius:1.5px}
+
+.cmphd{padding:20px 24px 16px;border-bottom:1px solid rgba(200,215,228,.09);
+  display:flex;align-items:center;gap:12px}
+.cmphd-cities{display:flex;align-items:center;gap:10px;flex:1;flex-wrap:wrap}
+.cmphd-city{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;line-height:1}
+.cmphd-vs{font-family:'DM Mono',monospace;font-size:10px;color:rgba(200,215,228,.28);
+  padding:2px 7px;border:1px solid rgba(200,215,228,.12);border-radius:6px}
+#cmclose{width:28px;height:28px;flex-shrink:0;
+  background:rgba(200,215,228,.06);border:1px solid rgba(200,215,228,.14);border-radius:8px;
+  color:rgba(200,215,228,.42);cursor:pointer;font-size:11px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s}
+#cmclose:hover{background:rgba(192,97,110,.16);color:#f28585;border-color:rgba(192,97,110,.28)}
+
+.cmp-hero{display:flex;padding:20px 24px;gap:0;align-items:stretch;
+  border-bottom:1px solid rgba(200,215,228,.09)}
+.cmp-hcity{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:14px 10px;border-radius:13px;position:relative}
+.cmp-hcity.winner{background:rgba(122,172,108,.09)}
+.cmp-hcity.winner::after{content:'WINNER';position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+  font-family:'DM Mono',monospace;font-size:6px;letter-spacing:.2em;
+  background:var(--green);color:#fff;padding:2px 8px;border-radius:0 0 6px 6px}
+.cmp-hname{font-family:'Playfair Display',serif;font-size:15px;color:#deeaf3;text-align:center}
+.cmp-hcountry{font-family:'DM Mono',monospace;font-size:8px;color:rgba(200,215,228,.32);margin-top:1px}
+.cmp-hscore{font-family:'DM Mono',monospace;font-size:42px;font-weight:700;line-height:1}
+.cmp-htag{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.12em;
+  padding:3px 9px;border-radius:10px;text-transform:uppercase;margin-top:3px}
+.cmp-htag.pos{background:rgba(122,172,108,.2);color:#a8d4a0}
+.cmp-htag.neu{background:rgba(77,154,192,.18);color:#89c4de}
+.cmp-htag.neg{background:rgba(192,97,110,.16);color:#e8909a}
+.cmp-hrank{font-family:'DM Mono',monospace;font-size:8px;color:rgba(200,215,228,.28);margin-top:4px}
+.cmp-hdiv{width:1px;background:rgba(200,215,228,.09);margin:10px 0}
+
+.csec{padding:16px 24px;border-bottom:1px solid rgba(200,215,228,.08)}
+.csec:last-child{border-bottom:none;padding-bottom:22px}
+.csec-lbl{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(200,215,228,.3);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.csec-lbl::after{content:'';flex:1;height:1px;background:rgba(200,215,228,.08)}
+
+/* compare grouped bar */
+.cmp-bargroup{display:flex;flex-direction:column;gap:10px}
+.cmp-bgrow{display:flex;flex-direction:column;gap:4px}
+.cmp-bgrow-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.08em;
+  text-transform:uppercase;color:rgba(200,215,228,.32);margin-bottom:2px}
+.cmp-bgbars{display:flex;align-items:center;gap:6px}
+.cmp-bgbar{height:14px;border-radius:3px;opacity:.88;min-width:2px;transition:width .5s ease;position:relative;flex-shrink:0}
+.cmp-bgval{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;flex-shrink:0}
+.cmp-bgspacer{flex:1}
+
+.radar-wrap{display:flex;gap:20px;align-items:center}
+.radar-legend{display:flex;flex-direction:column;gap:10px}
+.rl-item{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:9px}
+.rl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.rl-city{font-weight:600}
+.rl-country{font-size:7px;color:rgba(200,215,228,.3);margin-top:1px}
+
+.cmp-wrow{display:flex;gap:8px}
+.cmp-wbox{flex:1;background:rgba(200,215,228,.04);border:1px solid rgba(200,215,228,.09);
+  border-radius:11px;padding:14px;text-align:center}
+.cmp-wnum{font-family:'DM Mono',monospace;font-size:26px;font-weight:700}
+.cmp-wlbl{font-family:'DM Mono',monospace;font-size:7px;color:rgba(200,215,228,.28);
+  letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.cmp-wcity{font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:600;
+  color:rgba(200,215,228,.48);margin-top:5px}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="vig"></div>
+
+<div id="topbar">
+  <div id="logo">Neuro<span>Polis</span></div>
+  <div class="tagline">Şehir Düzeyinde İyi Oluş Skoru<br>Analizi</div>
+  <div class="spacer"></div>
+  <button id="cmp-toggle-btn" onclick="toggleCmp()"><span>⇄</span> Compare Cities</button>
+  <div class="livebadge"><div class="ldot"></div>Live</div>
+</div>
+
+<div id="cmp-banner">
+  <div class="cslots" id="cslots"></div>
+  <button class="cgo" id="cgo" onclick="openCmpModal()">Compare →</button>
+  <button class="cban-close" onclick="closeCmpMode()" title="Close compare mode">✕</button>
+</div>
+
+<div id="searchbar">
+  <input type="text" id="sinput" placeholder="Search city or country…" autocomplete="off">
+  <div class="sicon">⌕</div>
+  <div id="sresults"></div>
+</div>
+
+<div id="zoom">
+  <button class="zbtn" id="zi">+</button>
+  <button class="zbtn" id="zo">−</button>
+</div>
+
+<div id="sidebar">
+  <div class="panel">
+    <div class="phd top">▲ Top 5</div>
+    <div id="top-list"></div>
+  </div>
+  <div class="panel">
+    <div class="phd low">▼ Lowest 5</div>
+    <div id="low-list"></div>
+  </div>
+</div>
+
+<div id="stats">
+  <div class="sc">
+    <div class="sclbl">Global Avg</div>
+    <div class="scval" id="savg" style="color:#4D9AC0">—</div>
+    <div class="scsub">Emotion Index</div>
+  </div>
+  <div class="sc">
+    <div class="sclbl">Cities Live</div>
+    <div class="scval" id="scities" style="color:var(--green)">—</div>
+    <div class="scsub">Monitored</div>
+  </div>
+  <div class="sc">
+    <div class="sclbl">Updated</div>
+    <div class="scval" id="sts" style="font-size:10px;padding-top:5px;color:var(--txt2)">—</div>
+    <div class="scsub">UTC</div>
+  </div>
+</div>
+
+<div id="ticker">
+  <div class="tlbl">Live Feed</div>
+  <div id="ticker-stage"></div>
+</div>
+
+<!-- SINGLE CITY MODAL -->
+<div id="mov">
+  <div id="modal">
+    <div class="mstripe" id="mstripe"></div>
+    <div class="mhead">
+      <div class="mhl">
+        <div class="mcity" id="mcity">—</div>
+        <div class="mctry" id="mctry">—</div>
+      </div>
+      <div class="mhr">
+        <div class="mslbl">İyi Oluş Skoru</div>
+        <div class="msval" id="msval">—</div>
+        <div class="mrank" id="mrank">—</div>
+      </div>
+      <button id="mclose">✕</button>
+    </div>
+    <div class="mbody">
+      <div class="mzone-row" id="mzone-row"></div>
+
+
+      <!-- Metric Bar Chart -->
+      <div class="mmetrics-title">Metrik Detayları</div>
+      <div class="mmetrics-chart" id="mmetrics-chart"></div>
+
+      <!-- Metric Cards Grid -->
+      <div class="mmetrics-cards" id="mmetrics-cards"></div>
+
+      <!-- Radar -->
+      <div class="mradar-wrap" id="mradar-wrap">
+        <canvas id="modalRadar" width="200" height="200"></canvas>
+        <div class="mradar-legend" id="mradar-legend"></div>
+      </div>
+
+      <!-- Factor scatter context -->
+      <div class="mscatter-wrap" id="mscatter-wrap">
+        <div class="mscatter-lbl">
+          <span>Faktör Uzayında Konum</span>
+          <span id="mscatter-sub" style="font-size:9px;color:rgba(200,215,228,.3)">FAC1 vs FAC2</span>
+        </div>
+        <canvas id="scatterCanvas" width="544" height="180" style="width:100%;height:180px"></canvas>
+      </div>
+    </div>
+    <div class="mfoot">
+      <div class="mfts" id="mfts">—</div>
+      <button class="madd-cmp" id="madd-btn" onclick="addCurrentToCmp()">⇄ Karşılaştırmaya Ekle</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE MODAL -->
+<div id="cmpov">
+  <div id="cmpmodal">
+    <div class="cmphd">
+      <div class="cmphd-cities" id="cmphd-cities"></div>
+      <button id="cmclose">✕</button>
+    </div>
+    <div id="cmp-body"></div>
+  </div>
+</div>
+
+<script>
+// ── REAL DATA FROM proje_veri_normalized.xlsx ─────────────────────────────
+const EXCEL_DATA = {
+  "Washington D.C.": {"norm":0.3998,"sentiment":0.521,"climate":0.6654,"weather":0.7051,"economic":0.9106,"environmental":0.58,"fac1":0.0297,"fac2":-0.7835},
+  "New York":        {"norm":0.3039,"sentiment":0.493,"climate":0.7188,"weather":0.9876,"economic":0.9106,"environmental":0.59,"fac1":-1.0377,"fac2":-0.321},
+  "Los Angeles":     {"norm":0.3903,"sentiment":0.52,"climate":0.9049,"weather":0.7661,"economic":0.9106,"environmental":0.53,"fac1":-0.5907,"fac2":-0.1092},
+  "London":          {"norm":0.3459,"sentiment":0.495,"climate":0.7764,"weather":0.8924,"economic":0.8399,"environmental":0.6,"fac1":-0.9457,"fac2":-0.0648},
+  "Paris":           {"norm":0.3419,"sentiment":0.496,"climate":0.6464,"weather":0.7437,"economic":0.791,"environmental":0.6,"fac1":-0.538,"fac2":-0.5979},
+  "Berlin":          {"norm":0.5162,"sentiment":0.508,"climate":0.7429,"weather":0.7906,"economic":0.882,"environmental":0.7,"fac1":0.0012,"fac2":0.2731},
+  "Tokyo":           {"norm":0.581,"sentiment":0.535,"climate":0.6912,"weather":0.6683,"economic":0.8426,"environmental":0.7161,"fac1":0.7071,"fac2":-0.0206},
+  "Osaka":           {"norm":0.5097,"sentiment":0.554,"climate":0.6206,"weather":0.8375,"economic":0.8426,"environmental":0.6995,"fac1":0.5813,"fac2":-0.4933},
+  "Canberra":        {"norm":1.0,"sentiment":0.513,"climate":1.0,"weather":0.3928,"economic":0.8767,"environmental":0.93,"fac1":1.6584,"fac2":2.4954},
+  "Sydney":          {"norm":0.7011,"sentiment":0.489,"climate":0.8387,"weather":0.7885,"economic":0.8767,"environmental":0.85,"fac1":0.2438,"fac2":1.5996},
+  "Melbourne":       {"norm":0.7274,"sentiment":0.506,"climate":0.8925,"weather":0.5937,"economic":0.8767,"environmental":0.79,"fac1":0.6325,"fac2":1.3559},
+  "Ottawa":          {"norm":0.5823,"sentiment":0.502,"climate":0.6293,"weather":0.842,"economic":0.8072,"environmental":0.82,"fac1":0.2659,"fac2":0.5297},
+  "Seoul":           {"norm":0.3947,"sentiment":0.538,"climate":0.6677,"weather":0.8871,"economic":0.8494,"environmental":0.62,"fac1":-0.1198,"fac2":-0.6462},
+  "Busan":           {"norm":0.5731,"sentiment":0.528,"climate":0.8107,"weather":0.875,"economic":0.8494,"environmental":0.74,"fac1":0.1074,"fac2":0.6429},
+  "Rome":            {"norm":0.6225,"sentiment":0.531,"climate":0.8392,"weather":0.8298,"economic":0.8023,"environmental":0.77,"fac1":0.2552,"fac2":0.8957},
+  "Madrid":          {"norm":0.517,"sentiment":0.492,"climate":0.8332,"weather":0.7462,"economic":0.6795,"environmental":0.73,"fac1":-0.4858,"fac2":0.8749},
+  "Amsterdam":       {"norm":0.5337,"sentiment":0.496,"climate":0.7388,"weather":0.6959,"economic":0.894,"environmental":0.7,"fac1":0.0851,"fac2":0.324},
+  "Brussels":        {"norm":0.5391,"sentiment":0.52,"climate":0.7325,"weather":0.6643,"economic":0.8223,"environmental":0.69,"fac1":0.3176,"fac2":0.0875},
+  "Vienna":          {"norm":0.5819,"sentiment":0.518,"climate":0.7695,"weather":0.6771,"economic":0.8303,"environmental":0.72,"fac1":0.3584,"fac2":0.4135},
+  "Bern":            {"norm":0.7203,"sentiment":0.515,"climate":0.6121,"weather":0.5727,"economic":1.0,"environmental":0.81,"fac1":1.4315,"fac2":0.3171},
+  "Stockholm":       {"norm":0.4095,"sentiment":0.52,"climate":0.6211,"weather":0.9992,"economic":0.7705,"environmental":0.71,"fac1":-0.367,"fac2":-0.2141},
+  "Oslo":            {"norm":0.7726,"sentiment":0.504,"climate":0.6129,"weather":0.5126,"economic":0.9082,"environmental":0.87,"fac1":1.4861,"fac2":0.7098},
+  "Copenhagen":      {"norm":0.5095,"sentiment":0.52,"climate":0.6812,"weather":0.6186,"economic":0.9344,"environmental":0.64,"fac1":0.494,"fac2":-0.3876},
+  "Helsinki":        {"norm":0.5393,"sentiment":0.504,"climate":0.5879,"weather":0.4787,"economic":0.7505,"environmental":0.71,"fac1":0.6294,"fac2":-0.2915},
+  "Dublin":          {"norm":0.3969,"sentiment":0.481,"climate":0.581,"weather":0.7053,"economic":0.9501,"environmental":0.63,"fac1":-0.1518,"fac2":-0.5872},
+  "Lisbon":          {"norm":0.4269,"sentiment":0.585,"climate":0.7519,"weather":0.9712,"economic":0.7647,"environmental":0.62,"fac1":0.0777,"fac2":-0.6048},
+  "Athens":          {"norm":0.5558,"sentiment":0.526,"climate":0.7935,"weather":0.5988,"economic":0.6737,"environmental":0.7,"fac1":0.2397,"fac2":0.3292},
+  "Warsaw":          {"norm":0.5069,"sentiment":0.523,"climate":0.6915,"weather":0.8321,"economic":0.7985,"environmental":0.72,"fac1":0.0862,"fac2":0.0872},
+  "Prague":          {"norm":0.6193,"sentiment":0.534,"climate":0.7755,"weather":0.6359,"economic":0.8409,"environmental":0.72,"fac1":0.6909,"fac2":0.3354},
+  "Budapest":        {"norm":0.6374,"sentiment":0.528,"climate":0.8323,"weather":0.4549,"economic":0.7525,"environmental":0.7,"fac1":0.7168,"fac2":0.4627},
+  "Mexico City":     {"norm":0.4374,"sentiment":0.515,"climate":0.696,"weather":0.5435,"economic":0.7266,"environmental":0.61,"fac1":0.0567,"fac2":-0.4867},
+  "Monterrey":       {"norm":0.6476,"sentiment":0.536,"climate":0.7473,"weather":0.617,"economic":0.7266,"environmental":0.77,"fac1":0.7753,"fac2":0.4802},
+  "Brasília":        {"norm":0.4129,"sentiment":0.476,"climate":0.7916,"weather":0.7099,"economic":0.6103,"environmental":0.6766,"fac1":-0.9311,"fac2":0.5056},
+  "São Paulo":       {"norm":0.308,"sentiment":0.538,"climate":0.6518,"weather":0.6689,"economic":0.6103,"environmental":0.55,"fac1":-0.3439,"fac2":-1.1334},
+  "Buenos Aires":    {"norm":0.3248,"sentiment":0.508,"climate":0.7006,"weather":0.5444,"economic":0.1909,"environmental":0.6472,"fac1":-0.9398,"fac2":-0.2572},
+  "Santiago":        {"norm":0.5065,"sentiment":0.534,"climate":0.932,"weather":0.5648,"economic":0.6208,"environmental":0.62,"fac1":-0.1502,"fac2":0.3726},
+  "Bogotá":          {"norm":0.3053,"sentiment":0.512,"climate":0.7085,"weather":0.4933,"economic":0.5413,"environmental":0.53,"fac1":-0.5697,"fac2":-0.8811},
+  "Lima":            {"norm":0.3564,"sentiment":0.51,"climate":0.9816,"weather":0.7469,"economic":0.6441,"environmental":0.55,"fac1":-1.2048,"fac2":0.3441},
+  "Ankara":          {"norm":0.4538,"sentiment":0.503,"climate":0.9589,"weather":0.6011,"economic":0.2799,"environmental":0.69,"fac1":-1.072,"fac2":1.0372},
+  "Istanbul":        {"norm":0.4444,"sentiment":0.518,"climate":0.8585,"weather":0.6706,"economic":0.2799,"environmental":0.71,"fac1":-0.8369,"fac2":0.6672},
+  "Moscow":          {"norm":0.395,"sentiment":0.443,"climate":0.587,"weather":0.7372,"economic":0.7093,"environmental":0.73,"fac1":-0.8195,"fac2":0.2121},
+  "Saint Petersburg":{"norm":0.3476,"sentiment":0.441,"climate":0.5274,"weather":0.899,"economic":0.7093,"environmental":0.75,"fac1":-1.0805,"fac2":0.1153},
+  "Beijing":         {"norm":0.4596,"sentiment":0.513,"climate":0.9096,"weather":0.9709,"economic":0.7169,"environmental":0.6926,"fac1":-0.8849,"fac2":0.8594},
+  "Shanghai":        {"norm":0.4639,"sentiment":0.542,"climate":0.7674,"weather":0.9282,"economic":0.7169,"environmental":0.6905,"fac1":-0.2381,"fac2":0.1063},
+  "New Delhi":       {"norm":0.1221,"sentiment":0.482,"climate":0.4389,"weather":0.7162,"economic":0.5137,"environmental":0.54,"fac1":-1.2302,"fac2":-1.6821},
+  "Mumbai":          {"norm":0.164,"sentiment":0.506,"climate":0.2125,"weather":0.7302,"economic":0.5137,"environmental":0.61,"fac1":-0.3994,"fac2":-2.3295},
+  "Jakarta":         {"norm":0.0,"sentiment":0.539,"climate":0.0,"weather":0.8234,"economic":0.5873,"environmental":0.5,"fac1":-0.2387,"fac2":-3.9659},
+  "Riyadh":          {"norm":0.3373,"sentiment":0.498,"climate":0.7047,"weather":0.6448,"economic":0.8496,"environmental":0.54,"fac1":-0.4727,"fac2":-0.7188},
+  "Johannesburg":    {"norm":0.1766,"sentiment":0.487,"climate":0.7247,"weather":0.9096,"economic":0.0,"environmental":0.68,"fac1":-2.3516,"fac2":0.1668},
+  "Cape Town":       {"norm":0.2126,"sentiment":0.526,"climate":0.9329,"weather":0.838,"economic":0.0,"environmental":0.6,"fac1":-2.1959,"fac2":0.293},
+  "Nairobi":         {"norm":0.5384,"sentiment":0.481,"climate":0.7491,"weather":0.7333,"economic":0.4919,"environmental":0.82,"fac1":-0.5143,"fac2":1.0979},
+  "Cairo":           {"norm":0.3494,"sentiment":0.541,"climate":0.7994,"weather":0.7743,"economic":0.2779,"environmental":0.65,"fac1":-0.9476,"fac2":-0.0316},
+  "Tel Aviv":        {"norm":0.2062,"sentiment":0.427,"climate":0.7983,"weather":0.9087,"economic":0.8914,"environmental":0.54,"fac1":-2.0949,"fac2":0.1132},
+  "Singapore":       {"norm":0.5277,"sentiment":0.541,"climate":0.1985,"weather":0.4693,"economic":0.9928,"environmental":0.7,"fac1":2.016,"fac2":-2.0885},
+  "Baku":            {"norm":0.5486,"sentiment":0.509,"climate":0.9538,"weather":0.6573,"economic":0.5768,"environmental":0.7097,"fac1":-0.4555,"fac2":1.1156},
+  "Auckland":        {"norm":0.5407,"sentiment":0.542,"climate":0.7032,"weather":0.8657,"economic":0.8191,"environmental":0.73,"fac1":0.3391,"fac2":0.0756},
+  "Reykjavík":       {"norm":0.7528,"sentiment":0.628,"climate":0.3733,"weather":0.4455,"economic":0.9031,"environmental":0.77,"fac1":3.2001,"fac2":-1.5592},
+  "San José":        {"norm":0.4617,"sentiment":0.547,"climate":0.3938,"weather":0.5762,"economic":0.7268,"environmental":0.6809,"fac1":1.0402,"fac2":-1.4749},
+  "Tallinn":         {"norm":0.6091,"sentiment":0.551,"climate":0.5499,"weather":0.4462,"economic":0.7115,"environmental":0.73,"fac1":1.4036,"fac2":-0.6257},
+  "Riga":            {"norm":0.4474,"sentiment":0.527,"climate":0.5866,"weather":0.7079,"economic":0.7035,"environmental":0.6818,"fac1":0.2044,"fac2":-0.5793},
+  "Vilnius":         {"norm":0.603,"sentiment":0.518,"climate":0.6161,"weather":0.8369,"economic":0.7335,"environmental":0.84,"fac1":0.4519,"fac2":0.4843},
+  "Luxembourg City": {"norm":0.7591,"sentiment":0.578,"climate":0.7143,"weather":0.9565,"economic":0.931,"environmental":0.87,"fac1":1.4046,"fac2":0.6904},
+  "Bratislava":      {"norm":0.707,"sentiment":0.512,"climate":0.8333,"weather":0.6203,"economic":0.7416,"environmental":0.82,"fac1":0.5765,"fac2":1.2455},
+  "Ljubljana":       {"norm":0.8527,"sentiment":0.556,"climate":0.7657,"weather":0.6817,"economic":0.824,"environmental":0.91,"fac1":1.6443,"fac2":1.2192},
+};
+
+// Metric definitions for charts/radar
+const METRICS = [
+  {k:'sentiment',   l:'Duygu Skoru',       short:'Duygu'},
+  {k:'climate',     l:'İklim & Demografi',  short:'İklim'},
+  {k:'weather',     l:'Hava Durumu',        short:'Hava'},
+  {k:'economic',    l:'Ekonomi',            short:'Eko'},
+  {k:'environmental',l:'Çevresel',          short:'Çevre'},
+];
+
+// Coordinates
+const RAW=[
+  {city:"Washington D.C.",country:"United States",lat:38.895,lng:-77.036},
+  {city:"New York",country:"United States",lat:40.712,lng:-74.006},
+  {city:"Los Angeles",country:"United States",lat:34.052,lng:-118.243},
+  {city:"London",country:"United Kingdom",lat:51.505,lng:-0.090},
+  {city:"Paris",country:"France",lat:48.856,lng:2.352},
+  {city:"Berlin",country:"Germany",lat:52.520,lng:13.405},
+  {city:"Tokyo",country:"Japan",lat:35.689,lng:139.692},
+  {city:"Osaka",country:"Japan",lat:34.693,lng:135.502},
+  {city:"Canberra",country:"Australia",lat:-35.282,lng:149.128},
+  {city:"Sydney",country:"Australia",lat:-33.868,lng:151.209},
+  {city:"Melbourne",country:"Australia",lat:-37.813,lng:144.963},
+  {city:"Ottawa",country:"Canada",lat:45.424,lng:-75.695},
+  {city:"Seoul",country:"South Korea",lat:37.566,lng:126.978},
+  {city:"Busan",country:"South Korea",lat:35.179,lng:129.075},
+  {city:"Rome",country:"Italy",lat:41.902,lng:12.496},
+  {city:"Madrid",country:"Spain",lat:40.416,lng:-3.703},
+  {city:"Amsterdam",country:"Netherlands",lat:52.370,lng:4.895},
+  {city:"Brussels",country:"Belgium",lat:50.850,lng:4.352},
+  {city:"Vienna",country:"Austria",lat:48.208,lng:16.373},
+  {city:"Bern",country:"Switzerland",lat:46.948,lng:7.447},
+  {city:"Stockholm",country:"Sweden",lat:59.334,lng:18.063},
+  {city:"Oslo",country:"Norway",lat:59.913,lng:10.752},
+  {city:"Copenhagen",country:"Denmark",lat:55.676,lng:12.568},
+  {city:"Helsinki",country:"Finland",lat:60.169,lng:24.938},
+  {city:"Dublin",country:"Ireland",lat:53.349,lng:-6.260},
+  {city:"Lisbon",country:"Portugal",lat:38.717,lng:-9.142},
+  {city:"Athens",country:"Greece",lat:37.983,lng:23.727},
+  {city:"Warsaw",country:"Poland",lat:52.229,lng:21.012},
+  {city:"Prague",country:"Czech Republic",lat:50.073,lng:14.437},
+  {city:"Budapest",country:"Hungary",lat:47.498,lng:19.039},
+  {city:"Mexico City",country:"Mexico",lat:19.432,lng:-99.133},
+  {city:"Monterrey",country:"Mexico",lat:25.686,lng:-100.316},
+  {city:"Brasília",country:"Brazil",lat:-15.779,lng:-47.929},
+  {city:"São Paulo",country:"Brazil",lat:-23.550,lng:-46.633},
+  {city:"Buenos Aires",country:"Argentina",lat:-34.603,lng:-58.381},
+  {city:"Santiago",country:"Chile",lat:-33.459,lng:-70.648},
+  {city:"Bogotá",country:"Colombia",lat:4.711,lng:-74.072},
+  {city:"Lima",country:"Peru",lat:-12.046,lng:-77.042},
+  {city:"Ankara",country:"Turkey",lat:39.933,lng:32.859},
+  {city:"Istanbul",country:"Turkey",lat:41.008,lng:28.978},
+  {city:"Moscow",country:"Russia",lat:55.755,lng:37.617},
+  {city:"Saint Petersburg",country:"Russia",lat:59.934,lng:30.335},
+  {city:"Beijing",country:"China",lat:39.905,lng:116.391},
+  {city:"Shanghai",country:"China",lat:31.230,lng:121.473},
+  {city:"New Delhi",country:"India",lat:28.614,lng:77.202},
+  {city:"Mumbai",country:"India",lat:19.076,lng:72.877},
+  {city:"Jakarta",country:"Indonesia",lat:-6.211,lng:106.845},
+  {city:"Riyadh",country:"Saudi Arabia",lat:24.688,lng:46.722},
+  {city:"Johannesburg",country:"South Africa",lat:-26.204,lng:28.047},
+  {city:"Nairobi",country:"Kenya",lat:-1.286,lng:36.817},
+  {city:"Cairo",country:"Egypt",lat:30.044,lng:31.236},
+  {city:"Tel Aviv",country:"Israel",lat:32.086,lng:34.789},
+  {city:"Singapore",country:"Singapore",lat:1.352,lng:103.820},
+  {city:"Baku",country:"Azerbaijan",lat:40.409,lng:49.867},
+  {city:"San José",country:"Costa Rica",lat:9.934,lng:-84.087},
+  {city:"Reykjavík",country:"Iceland",lat:64.135,lng:-21.895},
+  {city:"Tallinn",country:"Estonia",lat:59.436,lng:24.753},
+  {city:"Riga",country:"Latvia",lat:56.946,lng:24.105},
+  {city:"Vilnius",country:"Lithuania",lat:54.687,lng:25.280},
+  {city:"Luxembourg City",country:"Luxembourg",lat:49.611,lng:6.130},
+  {city:"Bratislava",country:"Slovakia",lat:48.148,lng:17.107},
+  {city:"Ljubljana",country:"Slovenia",lat:46.051,lng:14.505},
+  {city:"Cape Town",country:"South Africa",lat:-33.924,lng:18.424},
+  {city:"Auckland",country:"New Zealand",lat:-36.848,lng:174.763},
+];
+
+const SCOL=['#7AAC6C','#4D9AC0','#C8835A'];
+
+// Build city array from real Excel data
+const cities = RAW.map(r => {
+  const d = EXCEL_DATA[r.city];
+  if (!d) return null;
+  return { ...r, norm: d.norm, metrics: d, score: d.norm };
+}).filter(Boolean);
+
+const sorted = [...cities].sort((a,b) => b.norm - a.norm);
+const top5   = sorted.slice(0,5);
+const low5   = sorted.slice(-5).reverse();
+
+// Color by normalized score (0–1)
+function sc(n){
+  return n >= 0.6 ? '#7AAC6C' : n >= 0.35 ? '#4D9AC0' : '#C0616E';
+}
+function scoreLabel(n){
+  const pct = Math.round(n * 100);
+  return pct;
+}
+function zt(n){
+  return n>=0.6?{cls:'pos',txt:'Pozitif Bölge'}:n>=0.35?{cls:'neu',txt:'Nötr Bölge'}:{cls:'neg',txt:'Stres Bölgesi'};
+}
+
+// Display score as 2 decimal percentage
+function fmt(n){ return (n*100).toFixed(1); }
+
+// ── MAP ─────────────────────────────────────────────────────────────────────
+const map = L.map('map',{zoomControl:false,attributionControl:false}).setView([25,12],3);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:18,minZoom:2}).addTo(map);
+
+let cmpMode=false, slots=[], curCity=null;
+const mrkMap={};
+
+function toggleCmp(){
+  cmpMode=!cmpMode;
+  document.getElementById('cmp-toggle-btn').classList.toggle('active',cmpMode);
+  document.getElementById('cmp-banner').classList.toggle('show',cmpMode);
+  document.querySelectorAll('.tt-hint').forEach(h=>h.style.display=cmpMode?'block':'none');
+}
+function closeCmpMode(){
+  cmpMode=false; slots=[];
+  document.getElementById('cmp-toggle-btn').classList.remove('active');
+  document.getElementById('cmp-banner').classList.remove('show');
+  document.querySelectorAll('.tt-hint').forEach(h=>h.style.display='none');
+  renderSlots(); updateHighlights();
+}
+function addToCmp(city){
+  if(slots.find(s=>s.city===city.city)) return;
+  if(slots.length>=3) slots.shift();
+  slots.push(city); renderSlots(); updateHighlights();
+}
+function removeSlot(i){ slots.splice(i,1); renderSlots(); updateHighlights(); }
+function renderSlots(){
+  const cont=document.getElementById('cslots'); cont.innerHTML='';
+  for(let i=0;i<3;i++){
+    const c=slots[i]; const col=SCOL[i];
+    if(c){
+      cont.innerHTML+=`<div class="cslot filled" style="border-color:${col}55">
+<span class="sname" style="color:${col}">${c.city}</span>
+<span class="ssc" style="color:${col}">${fmt(c.norm)}</span>
+<span class="sx" onclick="removeSlot(${i})">✕</span></div>`;
+    } else {
+      cont.innerHTML+=`<div class="cslot" style="border-color:${col}30"><span style="color:${col}55">City ${String.fromCharCode(65+i)}</span></div>`;
+    }
+    if(i<2) cont.innerHTML+=`<div class="cvs">vs</div>`;
+  }
+  document.getElementById('cgo').classList.toggle('ready',slots.length>=2);
+}
+function updateHighlights(){
+  Object.entries(mrkMap).forEach(([city,el])=>{
+    const idx=slots.findIndex(s=>s.city===city);
+    el.classList.toggle('csel',idx>=0);
+    const ball=el.querySelector('.cball');
+    if(ball) ball.style.outline=idx>=0?`3px solid ${SCOL[idx]}`:'';
+  });
+}
+
+// Place markers — show percentage score on bubble
+cities.forEach(c=>{
+  const hex=sc(c.norm); const B=22, off=B/2;
+  const disp=Math.round(c.norm*100);
+  const html=`<div class="cmark" data-city="${c.city}">
+<div class="cring" style="width:${B+12}px;height:${B+12}px;left:${-(off+6)}px;top:${-(off+6)}px;color:${hex}"></div>
+<div class="cball" style="width:${B}px;height:${B}px;left:${-off}px;top:${-off}px;font-size:7px;background:${hex}">${disp}</div>
+<div class="clabel" style="left:${off+6}px;top:${-off}px"><div class="ccity">${c.city}</div></div>
+</div>`;
+  const icon=L.divIcon({html,className:'',iconSize:[0,0],iconAnchor:[0,0]});
+  const tip=`<div class="ttcity">${c.city}</div>
+<div class="ttctry">${c.country}</div>
+<div class="ttrow"><div class="ttlbl">Score</div><div class="ttscore" style="color:${hex}">${fmt(c.norm)}</div></div>
+<div class="tt-hint">↑ Click to add to compare</div>`;
+  const m=L.marker([c.lat,c.lng],{icon}).bindTooltip(tip,{className:'ctt',offset:[14,0],direction:'right'}).addTo(map);
+  m.on('click',()=>{ if(cmpMode){ addToCmp(c); } else { openModal(c); } });
+  setTimeout(()=>{ const el=document.querySelector(`.cmark[data-city="${CSS.escape(c.city)}"]`); if(el) mrkMap[c.city]=el; },120);
+});
+
+// ── RADAR helper ─────────────────────────────────────────────────────────────
+function drawRadar(canvas, cityList, isDark){
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height; ctx.clearRect(0,0,W,H);
+  const cx=W/2, cy=H/2, R=Math.min(W,H)/2-28;
+  const n=METRICS.length;
+  const angles=METRICS.map((_,i)=>(-Math.PI/2)+(2*Math.PI*i/n));
+  const gridCol = isDark ? 'rgba(200,215,228,0.12)' : 'rgba(41,87,115,0.12)';
+  const lblCol  = isDark ? 'rgba(200,215,228,0.45)' : 'rgba(41,87,115,0.55)';
+
+  [.25,.5,.75,1].forEach(r=>{
+    ctx.beginPath();
+    angles.forEach((a,i)=>{ const px=cx+Math.cos(a)*R*r, py=cy+Math.sin(a)*R*r; i===0?ctx.moveTo(px,py):ctx.lineTo(px,py); });
+    ctx.closePath(); ctx.strokeStyle=gridCol; ctx.lineWidth=1; ctx.stroke();
+  });
+  angles.forEach(a=>{
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R);
+    ctx.strokeStyle=gridCol; ctx.lineWidth=1; ctx.stroke();
+  });
+  ctx.font='600 8px "DM Mono",monospace'; ctx.fillStyle=lblCol; ctx.textAlign='center'; ctx.textBaseline='middle';
+  METRICS.forEach((d,i)=>{ const a=angles[i]; ctx.fillText(d.short.toUpperCase(),cx+Math.cos(a)*(R+18),cy+Math.sin(a)*(R+18)); });
+
+  cityList.forEach((city,ci)=>{
+    const hex=SCOL[ci];
+    const vals=METRICS.map(d=>city.metrics[d.k]||0);
+    ctx.beginPath();
+    vals.forEach((v,i)=>{ const px=cx+Math.cos(angles[i])*R*v, py=cy+Math.sin(angles[i])*R*v; i===0?ctx.moveTo(px,py):ctx.lineTo(px,py); });
+    ctx.closePath(); ctx.fillStyle=hex+'28'; ctx.fill(); ctx.strokeStyle=hex; ctx.lineWidth=2; ctx.stroke();
+    vals.forEach((v,i)=>{
+      const px=cx+Math.cos(angles[i])*R*v, py=cy+Math.sin(angles[i])*R*v;
+      ctx.beginPath(); ctx.arc(px,py,3.5,0,Math.PI*2); ctx.fillStyle=hex; ctx.fill();
+    });
+  });
+}
+
+// ── SCATTER helper ─────────────────────────────────────────────────────────────
+function drawScatter(canvas, curCity){
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height; ctx.clearRect(0,0,W,H);
+  const PAD={l:36,r:16,t:10,b:28};
+  const pw=W-PAD.l-PAD.r, ph=H-PAD.t-PAD.b;
+
+  // find fac1/fac2 ranges
+  const f1s=cities.map(c=>c.metrics.fac1), f2s=cities.map(c=>c.metrics.fac2);
+  const f1min=Math.min(...f1s)-0.2, f1max=Math.max(...f1s)+0.2;
+  const f2min=Math.min(...f2s)-0.2, f2max=Math.max(...f2s)+0.2;
+
+  const tx=v=>PAD.l+(v-f1min)/(f1max-f1min)*pw;
+  const ty=v=>PAD.t+ph-(v-f2min)/(f2max-f2min)*ph;
+
+  // grid
+  ctx.strokeStyle='rgba(200,215,228,0.08)'; ctx.lineWidth=1;
+  [-.5,0,.5,1,1.5,2].forEach(v=>{
+    if(v>=f1min&&v<=f1max){ ctx.beginPath(); ctx.moveTo(tx(v),PAD.t); ctx.lineTo(tx(v),PAD.t+ph); ctx.stroke(); }
+    if(v>=f2min&&v<=f2max){ ctx.beginPath(); ctx.moveTo(PAD.l,ty(v)); ctx.lineTo(PAD.l+pw,ty(v)); ctx.stroke(); }
+  });
+
+  // axes labels
+  ctx.font='8px "DM Mono",monospace'; ctx.fillStyle='rgba(200,215,228,0.3)'; ctx.textAlign='center';
+  ctx.fillText('FAC1 →',PAD.l+pw/2,H-4);
+  ctx.save(); ctx.translate(10,PAD.t+ph/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('FAC2 →',0,0); ctx.restore();
+
+  // all cities as tiny dots
+  cities.forEach(c=>{
+    const hex=sc(c.norm);
+    ctx.beginPath(); ctx.arc(tx(c.metrics.fac1),ty(c.metrics.fac2),3,0,Math.PI*2);
+    ctx.fillStyle=hex+'55'; ctx.fill();
+  });
+
+  // current city highlighted
+  if(curCity){
+    const hex=sc(curCity.norm);
+    const x=tx(curCity.metrics.fac1), y=ty(curCity.metrics.fac2);
+    // ring
+    ctx.beginPath(); ctx.arc(x,y,10,0,Math.PI*2);
+    ctx.strokeStyle=hex+'44'; ctx.lineWidth=1.5; ctx.stroke();
+    // dot
+    ctx.beginPath(); ctx.arc(x,y,5,0,Math.PI*2);
+    ctx.fillStyle=hex; ctx.fill();
+    // label
+    ctx.font='bold 9px "DM Mono",monospace'; ctx.fillStyle='rgba(200,215,228,0.9)'; ctx.textAlign='left';
+    ctx.fillText(curCity.city,x+8,y+3);
+  }
+}
+
+// ── SINGLE CITY MODAL ────────────────────────────────────────────────────────
+function openModal(c){
+  curCity=c;
+  const hex=sc(c.norm);
+  const rank=sorted.findIndex(x=>x.city===c.city)+1;
+
+  document.getElementById('mcity').textContent=c.city;
+  document.getElementById('mctry').innerHTML=`<span style="color:#4D9AC0;font-size:14px">◈</span> ${c.country}`;
+  document.getElementById('msval').textContent=fmt(c.norm);
+  document.getElementById('msval').style.color=hex;
+  document.getElementById('mrank').textContent=`Sıra #${rank} / ${cities.length}`;
+  document.getElementById('mstripe').style.background=`linear-gradient(90deg,${hex},${hex}44,transparent)`;
+
+  const tag=zt(c.norm);
+  document.getElementById('mzone-row').innerHTML=`
+<span class="mzone-badge ${tag.cls}">${tag.txt}</span>
+<span class="mzone-rank">#${rank} / ${cities.length}</span>`;
+
+
+  // Metric Bar Chart
+  const chart=document.getElementById('mmetrics-chart'); chart.innerHTML='';
+  METRICS.forEach(d=>{
+    const v=c.metrics[d.k]||0;
+    const vhex=sc(v);
+    const pct=(v*100).toFixed(1);
+    chart.innerHTML+=`<div class="mmc-row">
+<div class="mmc-lbl">${d.l}</div>
+<div class="mmc-track">
+  <div class="mmc-fill" style="width:${v*100}%;background:${vhex}"></div>
+  <div class="mmc-fill-glow" style="width:${v*100}%;background:${vhex}"></div>
+</div>
+<div class="mmc-val" style="color:${vhex}">${pct}</div>
+</div>`;
+  });
+
+  // Metric Cards (2-col grid, 5th spans full)
+  const CARD_DEFS = [
+    {k:'economic',     l:'Ekonomik Skor'},
+    {k:'climate',      l:'İklimsel ve Demografik Skor'},
+    {k:'weather',      l:'Hava Durumu Skoru'},
+    {k:'environmental',l:'Çevresel Skor'},
+    {k:'sentiment',    l:'Duygusal Skor'},
+  ];
+  const cards = document.getElementById('mmetrics-cards'); cards.innerHTML='';
+  CARD_DEFS.forEach(d=>{
+    const v=c.metrics[d.k]||0;
+    const ch=sc(v);
+    cards.innerHTML+=`<div class="mmc-card">
+<div class="mmc-card-lbl">${d.l}</div>
+<div class="mmc-card-bar"><div class="mmc-card-fill" style="width:${v*100}%;background:${ch}"></div></div>
+<div class="mmc-card-vals">
+  <span class="mmc-card-num" style="color:${ch}">${(v*100).toFixed(1)}</span>
+  <span class="mmc-card-unit">/100</span>
+</div></div>`;
+  });
+
+  // Radar
+  const radarCanvas=document.getElementById('modalRadar');
+  const legend=document.getElementById('mradar-legend'); legend.innerHTML='';
+  METRICS.forEach((d,i)=>{
+    const v=(c.metrics[d.k]||0);
+    legend.innerHTML+=`<div class="mrl-row">
+<div class="mrl-dot" style="background:${hex}"></div>
+<div class="mrl-info">${d.l}: <span class="mrl-val">${(v*100).toFixed(1)}</span></div>
+</div>`;
+  });
+  requestAnimationFrame(()=>{ drawRadar(radarCanvas,[c],true); });
+
+  // Scatter
+  requestAnimationFrame(()=>{ drawScatter(document.getElementById('scatterCanvas'),c); });
+
+  document.getElementById('mfts').textContent=`Kaynak: proje_veri_normalized.xlsx  ·  ${new Date().toUTCString().replace('GMT','UTC')}`;
+
+  const addBtn=document.getElementById('madd-btn');
+  const already=!!slots.find(s=>s.city===c.city);
+  addBtn.textContent=already?'⇄ Eklendi':'⇄ Karşılaştırmaya Ekle';
+  addBtn.classList.toggle('added',already);
+  document.getElementById('mov').classList.add('open');
+}
+
+function addCurrentToCmp(){
+  if(!curCity) return;
+  addToCmp(curCity);
+  document.getElementById('madd-btn').textContent='⇄ Eklendi';
+  document.getElementById('madd-btn').classList.add('added');
+  if(!cmpMode){
+    cmpMode=true;
+    document.getElementById('cmp-toggle-btn').classList.add('active');
+    document.getElementById('cmp-banner').classList.add('show');
+  }
+}
+
+document.getElementById('mclose').addEventListener('click',e=>{e.stopPropagation();document.getElementById('mov').classList.remove('open');});
+document.getElementById('mov').addEventListener('click',e=>{if(e.target===document.getElementById('mov'))document.getElementById('mov').classList.remove('open');});
+
+// ── COMPARE MODAL ─────────────────────────────────────────────────────────────
+function openCmpModal(){
+  if(slots.length<2) return;
+  const list=slots; const n=list.length;
+  const maxNorm=Math.max(...list.map(c=>c.norm));
+
+  document.getElementById('cmphd-cities').innerHTML=
+    list.map((c,i)=>`<div class="cmphd-city" style="color:${SCOL[i]}">${c.city}</div>${i<n-1?'<div class="cmphd-vs">vs</div>':''}`).join('');
+
+  const heroHTML=`<div class="cmp-hero">
+${list.map((c,i)=>{
+  const hex=SCOL[i]; const rank=sorted.findIndex(x=>x.city===c.city)+1;
+  const tag=zt(c.norm); const isW=c.norm===maxNorm;
+  return `${i>0?'<div class="cmp-hdiv"></div>':''}
+<div class="cmp-hcity${isW?' winner':''}">
+<div class="cmp-hname">${c.city}</div>
+<div class="cmp-hcountry">${c.country}</div>
+<div class="cmp-hscore" style="color:${hex}">${fmt(c.norm)}</div>
+<div class="cmp-htag ${tag.cls}">${tag.txt}</div>
+<div class="cmp-hrank">Rank #${rank} of ${cities.length}</div>
+</div>`;
+}).join('')}</div>`;
+
+  // Grouped bar chart per metric
+  const barHTML=`<div class="csec">
+<div class="csec-lbl">Metrik Karşılaştırma</div>
+<div class="cmp-bargroup">
+${METRICS.map(d=>{
+  const vals=list.map(c=>c.metrics[d.k]||0);
+  const maxV=Math.max(...vals);
+  return `<div class="cmp-bgrow">
+<div class="cmp-bgrow-lbl">${d.l}</div>
+<div class="cmp-bgbars">
+${list.map((c,i)=>{
+  const v=vals[i]; const isW=v===maxV;
+  return `<div class="cmp-bgbar" style="width:${Math.round(v*160)}px;background:${SCOL[i]}"></div>
+<div class="cmp-bgval" style="color:${SCOL[i]}">${(v*100).toFixed(1)}${isW?' ✦':''}</div>`;
+}).join('<div class="cmp-bgspacer"></div>')}
+</div></div>`;
+}).join('')}
+</div></div>`;
+
+  const radarHTML=`<div class="csec">
+<div class="csec-lbl">Radar Görünümü</div>
+<div class="radar-wrap">
+<canvas id="radarCanvas" width="240" height="220"></canvas>
+<div class="radar-legend">
+${list.map((c,i)=>`<div class="rl-item"><div class="rl-dot" style="background:${SCOL[i]}"></div>
+<div><div class="rl-city" style="color:${SCOL[i]}">${c.city}</div>
+<div class="rl-country">${c.country}</div></div></div>`).join('')}
+</div></div></div>`;
+
+  const wins=list.map(()=>0);
+  METRICS.forEach(d=>{
+    const vals=list.map(c=>c.metrics[d.k]||0);
+    const mx=Math.max(...vals); vals.forEach((v,i)=>{ if(v===mx) wins[i]++; });
+  });
+  const winsHTML=`<div class="csec">
+<div class="csec-lbl">Kategori Kazanımları</div>
+<div class="cmp-wrow">
+${list.map((c,i)=>`<div class="cmp-wbox" style="border-color:${wins[i]===Math.max(...wins)?SCOL[i]+'55':'rgba(200,215,228,0.09)'}">
+<div class="cmp-wnum" style="color:${SCOL[i]}">${wins[i]}</div>
+<div class="cmp-wlbl">Kazanım</div>
+<div class="cmp-wcity">${c.city}</div>
+</div>`).join('')}
+</div></div>`;
+
+  // Factor scatter compare
+  const scatterCmpHTML=`<div class="csec">
+<div class="csec-lbl">Faktör Uzayı Karşılaştırma</div>
+<canvas id="scatterCmpCanvas" width="680" height="200" style="width:100%;height:200px"></canvas>
+</div>`;
+
+  document.getElementById('cmp-body').innerHTML=heroHTML+barHTML+radarHTML+scatterCmpHTML+winsHTML;
+
+  requestAnimationFrame(()=>{
+    const rc=document.getElementById('radarCanvas');
+    if(rc) drawRadar(rc,list,true);
+    const sc2=document.getElementById('scatterCmpCanvas');
+    if(sc2) drawScatterCmp(sc2,list);
+  });
+
+  document.getElementById('cmpov').classList.add('open');
+}
+
+function drawScatterCmp(canvas, cityList){
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height; ctx.clearRect(0,0,W,H);
+  const PAD={l:36,r:16,t:14,b:28};
+  const pw=W-PAD.l-PAD.r, ph=H-PAD.t-PAD.b;
+  const f1s=cities.map(c=>c.metrics.fac1), f2s=cities.map(c=>c.metrics.fac2);
+  const f1min=Math.min(...f1s)-0.2, f1max=Math.max(...f1s)+0.2;
+  const f2min=Math.min(...f2s)-0.2, f2max=Math.max(...f2s)+0.2;
+  const tx=v=>PAD.l+(v-f1min)/(f1max-f1min)*pw;
+  const ty=v=>PAD.t+ph-(v-f2min)/(f2max-f2min)*ph;
+
+  ctx.strokeStyle='rgba(200,215,228,0.07)'; ctx.lineWidth=1;
+  [-.5,0,.5,1,1.5,2].forEach(v=>{
+    if(v>=f1min&&v<=f1max){ ctx.beginPath(); ctx.moveTo(tx(v),PAD.t); ctx.lineTo(tx(v),PAD.t+ph); ctx.stroke(); }
+    if(v>=f2min&&v<=f2max){ ctx.beginPath(); ctx.moveTo(PAD.l,ty(v)); ctx.lineTo(PAD.l+pw,ty(v)); ctx.stroke(); }
+  });
+  ctx.font='8px "DM Mono",monospace'; ctx.fillStyle='rgba(200,215,228,0.28)'; ctx.textAlign='center';
+  ctx.fillText('FAC1 →',PAD.l+pw/2,H-4);
+  ctx.save(); ctx.translate(10,PAD.t+ph/2); ctx.rotate(-Math.PI/2); ctx.fillText('FAC2',0,0); ctx.restore();
+
+  cities.forEach(c=>{
+    const hex=sc(c.norm);
+    ctx.beginPath(); ctx.arc(tx(c.metrics.fac1),ty(c.metrics.fac2),2.5,0,Math.PI*2);
+    ctx.fillStyle=hex+'40'; ctx.fill();
+  });
+  cityList.forEach((c,ci)=>{
+    const hex=SCOL[ci]; const x=tx(c.metrics.fac1), y=ty(c.metrics.fac2);
+    ctx.beginPath(); ctx.arc(x,y,11,0,Math.PI*2);
+    ctx.strokeStyle=hex+'55'; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.beginPath(); ctx.arc(x,y,5.5,0,Math.PI*2);
+    ctx.fillStyle=hex; ctx.fill();
+    ctx.font='bold 9px "DM Mono",monospace'; ctx.fillStyle=hex; ctx.textAlign='left';
+    ctx.fillText(c.city,x+10,y+3);
+  });
+}
+
+document.getElementById('cmclose').addEventListener('click',e=>{e.stopPropagation();document.getElementById('cmpov').classList.remove('open');});
+document.getElementById('cmpov').addEventListener('click',e=>{if(e.target===document.getElementById('cmpov'))document.getElementById('cmpov').classList.remove('open');});
+
+// ── SIDEBAR ───────────────────────────────────────────────────────────────────
+function renderList(data,id,isTop){
+  const el=document.getElementById(id); el.innerHTML='';
+  data.forEach((c,i)=>{
+    const hex=sc(c.norm); const rank=sorted.findIndex(x=>x.city===c.city)+1;
+    el.innerHTML+=`<div class="ri" onclick="flyTo(${c.lat},${c.lng})">
+<div class="ri-top"><span class="ri-num">${rank}</span>
+<span class="ri-city">${c.city}</span><span class="ri-score" style="color:${hex}">${fmt(c.norm)}</span></div>
+<div class="ri-ctry">${c.country}</div>
+<div class="ri-bar"><div class="ri-fill" style="width:${c.norm*100}%;background:${hex}"></div></div>
+</div>`;
+  });
+}
+renderList(top5,'top-list',true);
+renderList(low5,'low-list',false);
+
+const avg=cities.reduce((s,c)=>s+c.norm,0)/cities.length;
+document.getElementById('savg').textContent=fmt(avg);
+document.getElementById('scities').textContent=cities.length;
+document.getElementById('sts').textContent=new Date().toISOString().slice(0,10);
+
+// ── TICKER ────────────────────────────────────────────────────────────────────
+(()=>{
+  const stage=document.getElementById('ticker-stage');
+  const sh=[...cities].sort(()=>Math.random()-.5);
+  const grps=[]; for(let i=0;i<sh.length;i+=4) grps.push(sh.slice(i,i+4));
+  grps.forEach(grp=>{
+    const card=document.createElement('div'); card.className='tick-card';
+    card.innerHTML=grp.map(c=>{const hex=sc(c.norm);
+      return`<div class="tick-item"><div class="tick-dot" style="background:${hex}"></div>
+<span class="tick-city">${c.city}</span>
+<span class="tick-score" style="color:${hex}">${fmt(c.norm)}</span></div>`;
+    }).join('');
+    stage.appendChild(card);
+  });
+  const cards=stage.querySelectorAll('.tick-card'); let cur=0;
+  function show(i){cards.forEach((c,j)=>{c.classList.remove('active','leaving');if(j===i)c.classList.add('active');});}
+  function next(){const p=cur;cur=(cur+1)%cards.length;cards[p].classList.add('leaving');setTimeout(()=>cards[p].classList.remove('leaving'),600);show(cur);}
+  show(0); setInterval(next,3000);
+})();
+
+// ── SEARCH ────────────────────────────────────────────────────────────────────
+const si=document.getElementById('sinput'), sr=document.getElementById('sresults');
+si.addEventListener('input',()=>{
+  const q=si.value.toLowerCase().trim();
+  if(!q){sr.style.display='none';return;}
+  const hits=cities.filter(c=>c.city.toLowerCase().includes(q)||c.country.toLowerCase().includes(q)).slice(0,6);
+  if(!hits.length){sr.style.display='none';return;}
+  sr.style.display='block';
+  sr.innerHTML=hits.map(c=>{const hex=sc(c.norm);
+    return`<div class="sri" onclick="flyTo(${c.lat},${c.lng})">
+<div><div class="sri-city">${c.city}</div><div class="sri-ctry">${c.country}</div></div>
+<div class="sri-sc" style="color:${hex}">${fmt(c.norm)}</div></div>`;
+  }).join('');
+});
+document.addEventListener('click',e=>{if(!document.getElementById('searchbar').contains(e.target))sr.style.display='none';});
+function flyTo(lat,lng){map.flyTo([lat,lng],6,{duration:1.2,easeLinearity:.25});sr.style.display='none';si.value='';}
+document.getElementById('zi').onclick=()=>map.zoomIn();
+document.getElementById('zo').onclick=()=>map.zoomOut();
+
+renderSlots();
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+﻿column,missing_count,filled_with
+traffic_good,6,0.9764
+air_quality_good,3,0.8733
+green_good,0,0.3565
+builtup_good,0,0.539

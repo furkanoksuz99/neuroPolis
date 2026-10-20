@@ -1,0 +1,65 @@
+﻿query_city,station_city,aqi,pm25,pm10,temperature,humidity,pressure,wind,air_quality_score_0_1,air_quality_score_0_100,status
+washington,"Aurora Hills Visitor Center, Northern Virginia, USA",38.0,38.0,16.0,31.0,62.0,1010.8,6.1,0.8733,87.33,ok
+new york,New York,41.0,41.0,,27.7,68.6,1013.2,3.1,0.8633,86.33,ok
+los angeles,Los Angeles-North Main Street,62.0,62.0,47.0,16.6,70.4,1009.8,0.1,0.7933,79.33,ok
+london,London,30.0,30.0,16.0,11.7,81.6,1019.3,0.8,0.9,90.0,ok
+paris,Paris,28.0,15.0,5.0,13.8,76.0,1022.4,2.5,0.9067,90.67,ok
+berlin,"Berlin, Germany",33.0,21.0,8.0,15.3,74.6,1015.6,9.6,0.89,89.0,ok
+tokyo,Meguro (目黒),26.0,17.0,8.0,19.4,63.5,1012.8,1.0,0.9133,91.33,ok
+osaka,Osaka (大阪),38.0,38.0,12.0,17.0,67.0,1010.0,3.6,0.8733,87.33,ok
+canberra,"Civic, Canberra",3.0,,,14.0,93.0,1026.0,5.6,0.99,99.0,ok
+sydney,Cook And Phillip Sydney East,17.0,17.0,7.0,17.2,85.6,1028.2,2.0,0.9433,94.33,ok
+melbourne,Melbourne CBD,37.0,37.0,11.0,10.0,100.0,1028.5,1.0,0.8767,87.67,ok
+ottawa,Ottawa,42.0,42.0,,25.0,90.0,1005.9,0.5,0.86,86.0,ok
+seoul,Seoul (서울),107.0,107.0,42.0,16.7,79.8,1000.4,1.0,0.6433,64.33,ok
+busan,Busan (부산),57.0,57.0,18.0,,,,,0.81,81.0,ok
+rome,"Arenula, Roma, Lazio, Italy",25.0,25.0,12.0,9.5,94.6,1002.0,0.8,0.9167,91.67,ok
+madrid,Madrid,55.0,55.0,29.0,27.7,28.0,1017.5,7.5,0.8167,81.67,ok
+amsterdam,Amsterdam,30.0,10.0,8.0,14.4,80.0,1016.7,5.0,0.9,90.0,ok
+brussels,Brussels,21.0,5.0,5.0,13.0,76.0,1018.0,1.5,0.93,93.0,ok
+vienna,"Ecke Taborstraße - Glockengasse, Austria",17.0,17.0,9.0,17.2,77.0,1021.3,1.0,0.9433,94.33,ok
+bern,"Bern Bollwerk, Switzerland",26.0,8.0,5.0,12.0,76.0,1021.0,3.3,0.9133,91.33,ok
+stockholm,"Stockholm Sveavägen 59 Gata, Sweden",6.0,,6.0,15.0,69.5,1012.0,2.8,0.98,98.0,ok
+oslo,"Spikersuppa, Oslo, Norway",15.0,15.0,8.0,7.7,10.0,986.2,58.0,0.95,95.0,ok
+copenhagen,"H.C.Andersens Boulevard, Copenhagen, Denmark",28.0,19.0,13.0,16.1,63.0,1015.5,,0.9067,90.67,ok
+helsinki,Helsinki,32.0,14.0,8.0,15.5,59.0,1015.3,0.2,0.8933,89.33,ok
+dublin,"Pearse Street, Dublin 2, Ireland",22.0,22.0,16.0,13.6,81.0,1017.7,2.0,0.9267,92.67,ok
+lisbon,"Entrecampos, Lisboa, Portugal",31.0,30.0,16.0,23.0,43.0,1017.0,6.6,0.8967,89.67,ok
+athens,"Aristotelous, Greece",21.0,21.0,19.0,27.0,36.0,1014.7,1.0,0.93,93.0,ok
+warsaw,"Marszałkowska, Warszawa, Mazowieckie, Poland",34.0,34.0,14.0,15.0,74.0,1016.0,5.4,0.8867,88.67,ok
+prague,"Pha8-Karlin, Prague, Czech Republic",27.0,5.0,22.0,11.1,93.0,1017.7,0.8,0.91,91.0,ok
+budapest,"Budapest Széna tér, Budapest, Hungary",42.0,42.0,24.0,20.5,73.0,1010.7,3.0,0.86,86.0,ok
+mexico city,"Merced, México, Mexico",68.0,68.0,29.0,23.5,48.0,1024.5,3.0,0.7733,77.33,ok
+monterrey,"Universidad, Monterrey, Nuevo León, Mexico",46.0,46.0,24.0,29.2,65.0,1012.1,8.0,0.8467,84.67,ok
+brasilia,"São Bento, DC, Rio De Janeiro, Brazil",,,,27.0,78.0,1014.0,4.1,,,ok
+sao paulo,"Parque D.Pedro II, São Paulo, Brazil",95.0,95.0,59.0,21.3,72.8,1023.4,0.8,0.6833,68.33,ok
+buenos aires,"Cordoba, Buenos Aires, Argentina",,,,25.0,61.0,1010.8,0.3,,,ok
+santiago,"Parque O'Higgins, Chile",53.0,53.0,30.0,12.0,71.0,1020.0,6.1,0.8233,82.33,ok
+bogota,"San Cristobal, Bogota, Colombia",61.0,61.0,17.0,20.4,45.0,1027.0,1.7,0.7967,79.67,ok
+lima,"Campo De Marte, Lima, Peru",54.0,54.0,26.0,25.5,65.0,982.2,,0.82,82.0,ok
+ankara,"Sıhhıye, Turkey",95.0,35.0,95.0,15.0,76.0,1016.0,3.0,0.6833,68.33,ok
+istanbul,"Istanbul (Aksaray), Turkey",56.0,56.0,22.0,21.0,77.0,1015.0,6.1,0.8133,81.33,ok
+moscow,"Spirid, Moscow, Moscow, Russia (Спиридоновка, Москва)",55.0,55.0,47.0,24.0,50.0,1015.0,3.6,0.8167,81.67,ok
+saint petersburg,"Professor Popov str., 48, Saint-Petersburg, Russia (ул. Профессора Попова, 48)",29.0,11.0,4.0,21.0,28.0,1023.0,0.5,0.9033,90.33,ok
+beijing,Beijing (北京),38.0,38.0,18.0,15.0,93.0,1012.0,2.5,0.8733,87.33,ok
+shanghai,Shanghai (上海),80.0,80.0,32.0,22.0,78.0,1012.0,1.5,0.7333,73.33,ok
+new delhi,"Lodhi Road, Delhi, Delhi, India",141.0,141.0,129.0,37.0,37.0,997.5,4.1,0.53,53.0,ok
+mumbai,"Kurla, Mumbai, India",100.0,100.0,57.0,31.0,95.48249999999999,1004.3725000000001,43.64,0.6667,66.67,ok
+jakarta,"Kemayoran, Indonesia",134.0,134.0,,26.0,88.0,1013.0,4.1,0.5533,55.33,ok
+riyadh,"Riyadh - Officers, Saudi Arabia ( الرياض - الضباط )",33.0,,33.0,19.0,29.0,1023.0,4.1,0.89,89.0,ok
+johannesburg,"Alexandra-NAQI, City of Johannesburg, South Africa",223.0,223.0,146.0,9.4,88.3,1020.5,,0.2567,25.67,ok
+cape town,"Foreshore-NAQI, City of Cape Town, South Africa",160.0,160.0,159.0,12.2,90.0,1014.1,2.0,0.4667,46.67,ok
+nairobi,"Nairobi US Embassy, Kenya",5.0,5.0,,25.0,31.0,1019.0,5.1,0.9833,98.33,ok
+cairo,"Cairo US Embassy, Egypt",57.0,57.0,,20.0,42.0,1011.0,5.6,0.81,81.0,ok
+tel aviv,"Tel Aviv (ישראל, Aviv)",60.0,60.0,27.0,23.0,78.0,1011.0,3.0,0.8,80.0,ok
+singapore,"South, Singapore",38.0,38.0,24.0,28.0,94.0,1012.0,0.5,0.8733,87.33,ok
+baku,"Baku US Embassy, Azerbaijan",91.0,91.0,,23.0,78.0,1013.0,3.0,0.6967,69.67,ok
+auckland,"Queen Street, Auckland",49.0,49.0,25.0,10.1,69.5,1036.4,0.3,0.8367,83.67,ok
+reykjavik,"Grensásv., Iceland",13.0,13.0,9.0,11.0,76.0,1005.0,5.1,0.9567,95.67,ok
+san jose,"San Jose - Jackson St, Santa Clara, California",55.0,55.0,,27.0,42.0,1012.8,4.6,0.8167,81.67,ok
+tallinn,"Liivalaia, Estonia",31.0,10.0,11.0,15.5,62.5,1016.0,4.3,0.8967,89.67,ok
+riga,,,,,,,,,,,veri_yok
+vilnius,"Vilnius Žirmūnai, Lithuania",26.0,22.0,19.0,15.9,72.6,1017.1,0.6,0.9133,91.33,ok
+luxembourg,"Luxembourg-bonnevoie, Luxembourg",25.0,17.0,7.0,14.1,64.5,1020.0,4.0,0.9167,91.67,ok
+bratislava,"Kamenne nam., Bratislava, Slovakia",20.0,17.0,20.0,17.2,81.0,1013.6,,0.9333,93.33,ok
+ljubljana,"LJ Vič, Slovenia",21.0,21.0,11.0,18.0,84.5,1011.9,3.0,0.93,93.0,ok

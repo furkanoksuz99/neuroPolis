@@ -1,0 +1,65 @@
+﻿traffic_rank,city,country,local_time,local_period,period_label,valid_points,reliability,flow_percent,mean_flow_percent,median_flow_percent,p25_flow_percent,traffic_score,traffic_score_0_1,traffic_level,expected_ratio,relative_to_expected,meaning,road_closure_rate,quality_penalty,point_errors,status
+1,Busan,South Korea,2026-06-11 05:02,gece,Gece / off-peak,13,İyi,100.0,100.0,100.0,100.0,100.0,1.0,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0,0,0,ok
+1,Seoul,South Korea,2026-06-11 05:02,gece,Gece / off-peak,13,İyi,100.0,100.0,100.0,100.0,100.0,1.0,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0,0,0,ok
+1,Brussels,Belgium,2026-06-10 22:02,gece,Gece / off-peak,13,İyi,100.0,100.0,100.0,100.0,100.0,1.0,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0,0,0,ok
+1,Copenhagen,Denmark,2026-06-10 22:03,gece,Gece / off-peak,11,İyi,100.0,100.0,100.0,100.0,100.0,1.0,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0,0,2,ok
+1,Vienna,Austria,2026-06-10 22:02,gece,Gece / off-peak,13,İyi,100.0,100.0,100.0,100.0,100.0,1.0,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0,0,0,ok
+1,Bern,Switzerland,2026-06-10 22:03,gece,Gece / off-peak,13,İyi,100.0,100.0,100.0,100.0,100.0,1.0,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0,0,0,ok
+1,Madrid,Spain,2026-06-10 22:02,gece,Gece / off-peak,13,İyi,100.0,100.0,100.0,100.0,100.0,1.0,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0,0,0,ok
+1,Saint Petersburg,Russia,2026-06-10 23:04,gece,Gece / off-peak,13,İyi,100.0,100.0,100.0,100.0,100.0,1.0,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0,0,0,ok
+1,Bratislava,Slovakia,2026-06-10 22:06,gece,Gece / off-peak,12,İyi,100.0,100.0,100.0,100.0,100.0,1.0,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0,0,1,ok
+10,Oslo,Norway,2026-06-10 22:03,gece,Gece / off-peak,11,İyi,99.51,98.77,100.0,100.0,99.36,0.9936,Çok akıcı,0.95,1.0475,Normal,0.0,0,2,ok
+10,Prague,Czechia,2026-06-10 22:03,gece,Gece / off-peak,13,İyi,99.5,98.76,100.0,100.0,99.36,0.9936,Çok akıcı,0.95,1.0474,Normal,0.0,0,0,ok
+12,Lisbon,Portugal,2026-06-10 21:03,normal_aksam,Normal akşam,13,İyi,99.32,98.3,100.0,100.0,99.25,0.9925,Çok akıcı,0.88,1.1286,Beklenenden iyi,0.0,0,0,ok
+13,Brasília,Brazil,2026-06-10 17:03,aksam_peak,Akşam peak,13,İyi,98.75,96.87,100.0,100.0,99.06,0.9906,Çok akıcı,0.65,1.5192,Beklenenden iyi,0.0,0,0,ok
+14,Nairobi,Kenya,2026-06-10 23:05,gece,Gece / off-peak,13,İyi,99.22,98.06,100.0,100.0,98.99,0.9899,Çok akıcı,0.95,1.0445,Normal,0.0,0,0,ok
+14,Ljubljana,Slovenia,2026-06-10 22:06,gece,Gece / off-peak,13,İyi,99.22,98.06,100.0,100.0,98.99,0.9899,Çok akıcı,0.95,1.0445,Normal,0.0,0,0,ok
+16,Singapore,Singapore,2026-06-11 04:05,gece,Gece / off-peak,13,İyi,99.2,98.0,100.0,100.0,98.96,0.9896,Çok akıcı,0.95,1.0442,Normal,0.0,0,0,ok
+17,Canberra,Australia,2026-06-11 06:01,gece,Gece / off-peak,13,İyi,98.95,97.36,100.0,100.0,98.63,0.9863,Çok akıcı,0.95,1.0415,Normal,0.0,0,0,ok
+18,Moscow,Russia,2026-06-10 23:04,gece,Gece / off-peak,13,İyi,98.73,96.83,100.0,100.0,98.35,0.9835,Çok akıcı,0.95,1.0393,Normal,0.0,0,0,ok
+19,Melbourne,Australia,2026-06-11 06:02,gece,Gece / off-peak,13,İyi,98.68,96.69,100.0,100.0,98.28,0.9828,Çok akıcı,0.95,1.0387,Normal,0.0,0,0,ok
+20,Vilnius,Lithuania,2026-06-10 23:05,gece,Gece / off-peak,13,İyi,98.61,96.53,100.0,100.0,98.19,0.9819,Çok akıcı,0.95,1.038,Normal,0.0,0,0,ok
+21,New Delhi,India,2026-06-11 01:34,gece,Gece / off-peak,13,İyi,100.0,100.0,100.0,100.0,98.08,0.9808,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0769,0,0,ok
+21,Jakarta,Indonesia,2026-06-11 03:04,gece,Gece / off-peak,13,İyi,100.0,100.0,100.0,100.0,98.08,0.9808,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0769,0,0,ok
+23,Riga,Latvia,2026-06-10 23:05,gece,Gece / off-peak,13,İyi,99.94,99.85,100.0,100.0,98.0,0.98,Çok akıcı,0.95,1.052,Beklenenden iyi,0.0769,0,0,ok
+23,Tallinn,Estonia,2026-06-10 23:05,gece,Gece / off-peak,10,Orta,100.0,100.0,100.0,100.0,98.0,0.98,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0,2,3,ok
+25,Cairo,Egypt,2026-06-10 23:05,gece,Gece / off-peak,13,İyi,98.43,96.07,100.0,100.0,97.95,0.9795,Çok akıcı,0.95,1.0361,Normal,0.0,0,0,ok
+26,Amsterdam,Netherlands,2026-06-10 22:02,gece,Gece / off-peak,12,İyi,100.0,100.0,100.0,100.0,97.92,0.9792,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0833,0,1,ok
+26,Mumbai,India,2026-06-11 01:34,gece,Gece / off-peak,12,İyi,100.0,100.0,100.0,100.0,97.92,0.9792,Çok akıcı,0.95,1.0526,Beklenenden iyi,0.0833,0,1,ok
+28,Stockholm,Sweden,2026-06-10 22:03,gece,Gece / off-peak,12,İyi,98.33,95.83,100.0,100.0,97.83,0.9783,Çok akıcı,0.95,1.0351,Normal,0.0,0,1,ok
+29,Dublin,Ireland,2026-06-10 21:03,normal_aksam,Normal akşam,12,İyi,97.87,94.68,100.0,100.0,97.66,0.9766,Çok akıcı,0.88,1.1122,Beklenenden iyi,0.0,0,1,ok
+30,Athens,Greece,2026-06-10 23:03,gece,Gece / off-peak,13,İyi,98.17,95.42,100.0,100.0,97.62,0.9762,Çok akıcı,0.95,1.0333,Normal,0.0,0,0,ok
+31,Budapest,Hungary,2026-06-10 22:03,gece,Gece / off-peak,12,İyi,97.92,94.79,100.0,100.0,97.29,0.9729,Çok akıcı,0.95,1.0307,Normal,0.0,0,1,ok
+32,Tel Aviv,Israel,2026-06-10 23:05,gece,Gece / off-peak,10,Orta,99.33,98.31,100.0,100.0,97.12,0.9712,Çok akıcı,0.95,1.0455,Normal,0.0,2,3,ok
+33,Sydney,Australia,2026-06-11 06:01,gece,Gece / off-peak,12,İyi,97.76,94.4,100.0,100.0,97.09,0.9709,Çok akıcı,0.95,1.0291,Normal,0.0,0,1,ok
+34,Paris,France,2026-06-10 22:01,gece,Gece / off-peak,13,İyi,97.6,94.01,100.0,100.0,96.88,0.9688,Çok akıcı,0.95,1.0274,Normal,0.0,0,0,ok
+35,Cape Town,South Africa,2026-06-10 22:05,gece,Gece / off-peak,9,Orta,98.96,97.4,100.0,100.0,96.65,0.9665,Çok akıcı,0.95,1.0417,Normal,0.0,2,4,ok
+36,Johannesburg,South Africa,2026-06-10 22:05,gece,Gece / off-peak,12,İyi,97.18,92.95,100.0,100.0,96.33,0.9633,Çok akıcı,0.95,1.023,Normal,0.0,0,1,ok
+37,Luxembourg City,Luxembourg,2026-06-10 22:06,gece,Gece / off-peak,13,İyi,99.91,99.78,100.0,100.0,96.04,0.9604,Çok akıcı,0.95,1.0517,Beklenenden iyi,0.1538,0,0,ok
+38,Istanbul,Turkey,2026-06-10 23:04,gece,Gece / off-peak,12,İyi,96.22,95.36,100.0,90.38,95.09,0.9509,Çok akıcı,0.95,1.0128,Normal,0.0,0,1,ok
+39,Reykjavík,Iceland,2026-06-10 20:05,normal_aksam,Normal akşam,7,Düşük,100.0,100.0,100.0,100.0,95.0,0.95,Çok akıcı,0.88,1.1364,Beklenenden iyi,0.0,5,6,ok
+40,Riyadh,Saudi Arabia,2026-06-10 23:05,gece,Gece / off-peak,13,İyi,95.85,95.25,100.0,88.75,94.6,0.946,Çok akıcı,0.95,1.0089,Normal,0.0,0,0,ok
+41,Berlin,Germany,2026-06-10 22:01,gece,Gece / off-peak,13,İyi,98.52,96.29,100.0,100.0,94.22,0.9422,Çok akıcı,0.95,1.037,Normal,0.1538,0,0,ok
+42,Helsinki,Finland,2026-06-10 23:03,gece,Gece / off-peak,7,Düşük,99.27,98.16,100.0,100.0,94.04,0.9404,Çok akıcı,0.95,1.0449,Normal,0.0,5,6,ok
+43,Rome,Italy,2026-06-10 22:02,gece,Gece / off-peak,13,İyi,95.03,93.64,100.0,87.88,93.54,0.9354,Çok akıcı,0.95,1.0003,Normal,0.0,0,0,ok
+44,Monterrey,Mexico,2026-06-10 14:03,gun_ici,Gün içi,13,İyi,93.01,91.74,100.0,81.58,93.01,0.9301,Çok akıcı,0.82,1.1343,Beklenenden iyi,0.0,0,0,ok
+45,Ankara,Turkey,2026-06-10 23:04,gece,Gece / off-peak,13,İyi,96.02,95.49,100.0,89.13,92.9,0.929,Çok akıcı,0.95,1.0107,Normal,0.0769,0,0,ok
+46,Warsaw,Poland,2026-06-10 22:03,gece,Gece / off-peak,13,İyi,94.52,94.12,100.0,84.38,92.88,0.9288,Çok akıcı,0.95,0.995,Normal,0.0,0,0,ok
+47,London,United Kingdom,2026-06-10 21:01,normal_aksam,Normal akşam,13,İyi,92.63,91.91,100.0,79.31,91.89,0.9189,Çok akıcı,0.88,1.0526,Beklenenden iyi,0.0,0,0,ok
+48,Santiago,Chile,2026-06-10 16:04,aksam_peak,Akşam peak,13,İyi,87.34,89.48,87.5,82.76,88.58,0.8858,Akıcı,0.65,1.3437,Beklenenden iyi,0.0769,0,0,ok
+49,Ottawa,Canada,2026-06-10 16:02,aksam_peak,Akşam peak,12,İyi,83.34,79.01,100.0,58.7,87.51,0.8751,Akıcı,0.65,1.2822,Beklenenden iyi,0.0,0,1,ok
+50,Auckland,New Zealand,2026-06-11 08:05,sabah_peak,Sabah peak,13,İyi,77.28,78.09,80.49,69.23,81.82,0.8182,Akıcı,0.7,1.1039,Beklenenden iyi,0.0,0,0,ok
+51,New York,United States,2026-06-10 16:01,aksam_peak,Akşam peak,12,İyi,74.9,78.0,78.12,62.26,81.18,0.8118,Akıcı,0.65,1.1523,Beklenenden iyi,0.0,0,1,ok
+52,São Paulo,Brazil,2026-06-10 17:04,aksam_peak,Akşam peak,13,İyi,73.36,75.5,76.47,62.86,80.02,0.8002,Akıcı,0.65,1.1286,Beklenenden iyi,0.0,0,0,ok
+53,Washington D.C.,United States,2026-06-10 16:01,aksam_peak,Akşam peak,13,İyi,71.88,73.28,72.6,67.65,76.99,0.7699,Akıcı,0.65,1.1059,Beklenenden iyi,0.0769,0,0,ok
+54,Buenos Aires,Argentina,2026-06-10 17:04,aksam_peak,Akşam peak,10,Orta,73.92,75.92,75.0,67.74,75.94,0.7594,Akıcı,0.65,1.1372,Beklenenden iyi,0.1,2,3,ok
+55,Lima,Peru,2026-06-10 15:04,gun_ici,Gün içi,13,İyi,77.58,78.86,78.26,73.68,75.66,0.7566,Akıcı,0.82,0.9461,Biraz kötü,0.0769,0,0,ok
+56,Mexico City,Mexico,2026-06-10 14:03,gun_ici,Gün içi,13,İyi,72.91,78.28,72.41,63.16,72.91,0.7291,Orta yoğunluk,0.82,0.8891,Biraz kötü,0.0,0,0,ok
+57,Bogotá,Colombia,2026-06-10 15:04,gun_ici,Gün içi,13,İyi,74.02,74.15,75.0,71.79,72.1,0.721,Orta yoğunluk,0.82,0.9027,Biraz kötü,0.0769,0,0,ok
+58,Los Angeles,United States,2026-06-10 13:01,gun_ici,Gün içi,13,İyi,62.48,69.88,60.61,51.43,62.48,0.6248,Orta yoğunluk,0.82,0.762,Belirgin kötü,0.0,0,0,ok
+,Tokyo,Japan,2026-06-11 05:01,gece,Gece / off-peak,0,Veri yok,,,,,,,Veri yok,0.95,,Veri yok,,100,13,veri_yok
+,Osaka,Japan,2026-06-11 05:01,gece,Gece / off-peak,0,Veri yok,,,,,,,Veri yok,0.95,,Veri yok,,100,13,veri_yok
+,Beijing,China,2026-06-11 04:04,gece,Gece / off-peak,0,Veri yok,,,,,,,Veri yok,0.95,,Veri yok,,100,13,veri_yok
+,Shanghai,China,2026-06-11 04:04,gece,Gece / off-peak,0,Veri yok,,,,,,,Veri yok,0.95,,Veri yok,,100,13,veri_yok
+,Baku,Azerbaijan,2026-06-11 00:05,gece,Gece / off-peak,0,Veri yok,,,,,,,Veri yok,0.95,,Veri yok,,100,13,veri_yok
+,San José,Costa Rica,2026-06-10 14:05,gun_ici,Gün içi,0,Veri yok,,,,,,,Veri yok,0.82,,Veri yok,,100,13,veri_yok
